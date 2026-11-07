@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Becas DIGEESP Chiquimula</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: barra institucional + pestañas por rol; una columna en celular, contenido ancho en proyector */
+:root{
+  --bg:#f5f6fb; --surface:#ffffff; --ink:#1b1f3a; --muted:#5a6080; --line:#dde0ec;
+  --accent:#2f3a8f; --accent-ink:#ffffff; --accent-soft:#e8eaf8; --maiz:#d99a17; --maiz-soft:#fbf1da;
+  --ok:#1f7a4d; --ok-soft:#e2f3ea; --warn:#9a5a06; --warn-soft:#fbeed8; --bad:#b3261e; --bad-soft:#fbe4e2;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11132a; --surface:#1a1d38; --ink:#e9eaf6; --muted:#a3a7c6; --line:#2e3258;
+  --accent:#9aa5ff; --accent-ink:#11132a; --accent-soft:#252a55; --maiz:#f0c15a; --maiz-soft:#3a3018;
+  --ok:#62d49c; --ok-soft:#17362a; --warn:#f2b65c; --warn-soft:#3b2b14; --bad:#ff8f86; --bad-soft:#3d1c1b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11132a; --surface:#1a1d38; --ink:#e9eaf6; --muted:#a3a7c6; --line:#2e3258;
+  --accent:#9aa5ff; --accent-ink:#11132a; --accent-soft:#252a55; --maiz:#f0c15a; --maiz-soft:#3a3018;
+  --ok:#62d49c; --ok-soft:#17362a; --warn:#f2b65c; --warn-soft:#3b2b14; --bad:#ff8f86; --bad-soft:#3d1c1b; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55}
+h1,h2,h3{font-family:var(--f-display);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.6rem,4vw,2.3rem);font-weight:800}
+h2{font-size:1.35rem;font-weight:800}
+h3{font-size:1.05rem;font-weight:600}
+p{margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+
+/* Barra superior */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:12px;padding-block:10px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.mark{width:36px;height:36px;border-radius:9px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:15px;flex:none}
+.brand b{font-family:var(--f-display);font-size:1.02rem;display:block;line-height:1.1}
+.brand small{color:var(--muted);font-size:.8rem}
+.who{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted)}
+.who strong{color:var(--ink)}
+.proto{background:var(--maiz-soft);color:var(--warn);font-size:.78rem;letter-spacing:.03em;text-align:center;padding:5px 12px}
+.proto b{letter-spacing:.06em;text-transform:uppercase}
+nav.tabs{border-top:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav.tabs .wrap::-webkit-scrollbar{display:none}
+.tab{appearance:none;border:0;background:none;color:var(--muted);font:inherit;font-weight:700;font-size:.92rem;padding:11px 12px;border-bottom:3px solid transparent;white-space:nowrap;cursor:pointer}
+.tab[aria-current="page"]{color:var(--accent);border-bottom-color:var(--accent)}
+.tab:focus-visible,.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--maiz);outline-offset:2px}
+
+main{padding-block:24px 48px}
+.view{display:grid;gap:20px}
+.lead{color:var(--muted);max-width:65ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:12px;min-width:0}
+.grid2{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.eyebrow{font-size:.75rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:700}
+ul.clean{margin:0;padding-left:1.1em;display:grid;gap:6px}
+.note{display:flex;gap:10px;align-items:flex-start;background:var(--accent-soft);border-radius:10px;padding:12px 14px;font-size:.93rem}
+.note.maiz{background:var(--maiz-soft)}
+.note .ic{font-weight:800;color:var(--accent);flex:none;font-family:var(--f-display)}
+.mono{font-family:var(--f-mono);font-size:.88em}
+
+/* Hero informativo */
+.hero{background:var(--accent);color:var(--accent-ink);border-radius:14px;padding:24px;display:grid;gap:16px;grid-template-columns:1fr auto;align-items:end}
+.hero p{opacity:.9;max-width:60ch}
+.amount{text-align:right}
+.amount .q{font-family:var(--f-display);font-weight:800;font-size:clamp(2.2rem,7vw,3.4rem);line-height:1}
+.amount small{display:block;opacity:.85;font-size:.85rem}
+@media (max-width:560px){.hero{grid-template-columns:1fr}.amount{text-align:left}}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start;counter-increment:s}
+.steps li::before{content:counter(s);width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:800;font-family:var(--f-display)}
+.steps b{display:block}
+.steps span{color:var(--muted);font-size:.93rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.88rem;background:var(--bg)}
+.law{display:grid;gap:10px}
+.law div{display:grid;gap:2px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.law div:last-child{border-bottom:0;padding-bottom:0}
+.law b{font-size:.95rem}
+.law span{color:var(--muted);font-size:.88rem}
+
+/* Formularios */
+form{display:grid;gap:18px}
+fieldset{border:1px solid var(--line);border-radius:12px;padding:16px;margin:0;display:grid;gap:14px;min-width:0;background:var(--surface)}
+legend{font-family:var(--f-display);font-weight:600;padding:0 6px}
+.row{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+label.f{display:grid;gap:5px;font-weight:700;font-size:.9rem;min-width:0}
+label.f small{font-weight:400;color:var(--muted)}
+input[type=text],input[type=number],input[type=password],select,textarea{font:inherit;font-weight:400;font-size:1rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%;min-width:0}
+textarea{min-height:72px;resize:vertical}
+input[readonly]{color:var(--muted)}
+.inline{display:flex;gap:8px}
+.inline input{flex:1}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-weight:400;cursor:pointer;background:var(--bg)}
+.opt:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.opt input{accent-color:var(--accent);margin:0}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:400}
+.check input{accent-color:var(--accent);width:18px;height:18px;margin-top:3px;flex:none}
+.err{color:var(--bad);font-size:.88rem;font-weight:700}
+
+.btn{appearance:none;font:inherit;font-weight:700;border-radius:9px;padding:10px 16px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer;white-space:nowrap}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.sm{padding:6px 10px;font-size:.85rem}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.btn.warn{background:transparent;border-color:var(--warn);color:var(--warn)}
+.btn.bad{background:transparent;border-color:var(--bad);color:var(--bad)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* Roles */
+.roles{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.role{text-align:left;font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:8px;cursor:pointer}
+.role:hover,.role:focus-visible{border-color:var(--accent);outline:none}
+.role .ini{width:40px;height:40px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-family:var(--f-display);font-weight:800}
+.role span{color:var(--muted);font-size:.9rem}
+
+/* Estados */
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:.8rem;font-weight:700;white-space:nowrap}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.s-pre{background:var(--accent-soft);color:var(--accent)}
+.s-rev{background:var(--maiz-soft);color:var(--warn)}
+.s-obs{background:var(--warn-soft);color:var(--warn)}
+.s-sel{background:var(--ok-soft);color:var(--ok)}
+.s-pag{background:var(--ok);color:var(--surface)}
+.s-no{background:var(--bad-soft);color:var(--bad)}
+.prio{font-family:var(--f-mono);font-size:.8rem;font-weight:500;border-radius:6px;padding:2px 7px;white-space:nowrap}
+.p-alta{background:var(--bad-soft);color:var(--bad)}
+.p-media{background:var(--maiz-soft);color:var(--warn)}
+.p-baja{background:var(--accent-soft);color:var(--accent)}
+
+/* Tablas */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);background:var(--bg);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td small{color:var(--muted);display:block}
+.num{font-variant-numeric:tabular-nums}
+
+/* KPIs */
+.kpis{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:2px}
+.kpi b{font-family:var(--f-display);font-size:1.9rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+.kpi span{color:var(--muted);font-size:.85rem}
+.kpi.hl{border-color:var(--maiz);background:var(--maiz-soft)}
+.bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok)}
+
+/* Expediente generado */
+.receipt{border:2px dashed var(--accent);border-radius:14px;padding:20px;display:grid;gap:10px;background:var(--surface)}
+.receipt .code{font-family:var(--f-mono);font-size:1.5rem;color:var(--accent)}
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.timeline li{font-size:.8rem;padding:4px 10px;border-radius:6px;background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.timeline li.on{background:var(--accent-soft);color:var(--accent);border-color:var(--accent);font-weight:700}
+
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+.toolbar label.f{flex:1;min-width:160px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:10px;font-weight:700;z-index:20;max-width:calc(100% - 32px)}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+footer .wrap{padding-block:18px;display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap}
+@media (prefers-reduced-motion:no-preference){.view{animation:in .25s ease-out}@keyframes in{from{transform:translateY(6px)}to{transform:none}}}
+</style>
+</head>
+<body>
+
+<div class="proto"><b>Prototipo académico</b> · Datos ficticios · No es un sistema oficial del MINEDUC</div>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <div class="mark" aria-hidden="true">BE</div>
+      <div><b>Becas para Estudiantes con Discapacidad</b><small>DIGEESP · DIDEDUC Chiquimula</small></div>
+    </div>
+    <div class="who" id="who"></div>
+  </div>
+  <nav class="tabs" aria-label="Secciones"><div class="wrap" id="tabs"></div></nav>
+</header>
+
+<main class="wrap" id="main"></main>
+
+<footer><div class="wrap">
+  <span>Propuesta de mejora · Planeamiento Educativo · Licenciatura en Pedagogía y Administración Educativa, CUNORI-USAC, 2026.</span>
+  <button class="btn ghost sm" id="reset" type="button">Reiniciar demostración</button>
+</div></footer>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+"use strict";
+
+// ---------- Datos ficticios ----------
+const ESCUELAS = [
+  {id:"e1", nombre:"EORM Aldea Las Lomas", codigo:"20-07-0418-43", municipio:"San José La Arada", poblacion:"Preprimaria y primaria", docentes:9, internet:true},
+  {id:"e2", nombre:"EORM Caserío El Cerrón", codigo:"20-05-0733-43", municipio:"Camotán", poblacion:"Primaria", docentes:4, internet:false},
+  {id:"e3", nombre:"INEB Jornada Vespertina", codigo:"20-01-2210-45", municipio:"Chiquimula", poblacion:"Básico", docentes:14, internet:true},
+  {id:"e4", nombre:"EORM Aldea Tituque", codigo:"20-04-0562-43", municipio:"Olopa", poblacion:"Primaria", docentes:6, internet:false}
+];
+// Registro simulado del SIRE (código personal → datos)
+const SIRE = {
+  "K481TQM":{nombre:"Daniela Guadalupe Ramos Pérez", grado:"3.º primaria"},
+  "M207LZA":{nombre:"José Esteban Cardona Lemus", grado:"5.º primaria"},
+  "P915RHD":{nombre:"Ana Lucía Interiano Vásquez", grado:"1.º básico"},
+  "C330WEN":{nombre:"Brayan Alexis Ramírez Súchite", grado:"Preparatoria"}
+};
+const TIPOS = ["Intelectual","Física","Auditiva","Visual","Acondroplasia","Autismo","Otra diagnosticada"];
+const ESTADOS = ["Pre-registrado","En revisión","Seleccionado","Pagado"];
+
+function seed(){
+  return {
+    rol:null, escuela:"e1", seq:12,
+    expedientes:[
+      {id:"EXP-2027-0003", escuela:"e1", nombre:"María Fernanda López Guerra", codigo:"R512KDA", grado:"4.º primaria", tipo:"Auditiva", cert:true, obsCert:"", vive:"Solo con la madre", pobreza:"Pobreza extrema", actPadre:"No aplica", actMadre:"Tortillería, por día", trabaja:false, estado:"En revisión", fecha:"12/01/2027"},
+      {id:"EXP-2027-0004", escuela:"e2", nombre:"Kevin Josué Pérez Ramos", codigo:"T884MAP", grado:"2.º primaria", tipo:"Física", cert:true, obsCert:"", vive:"Con abuelos", pobreza:"Pobreza extrema", actPadre:"Migró, sin aporte", actMadre:"Jornalera", trabaja:true, estado:"En revisión", fecha:"13/01/2027"},
+      {id:"EXP-2027-0005", escuela:"e3", nombre:"Sofía Alejandra Méndez Cruz", codigo:"G120PLS", grado:"2.º básico", tipo:"Visual", cert:true, obsCert:"", vive:"Padre y madre", pobreza:"Pobreza", actPadre:"Agricultor", actMadre:"Ama de casa", trabaja:false, estado:"En revisión", fecha:"13/01/2027"},
+      {id:"EXP-2027-0007", escuela:"e4", nombre:"Luis Fernando Gómez Díaz", codigo:"H773QBE", grado:"6.º primaria", tipo:"Autismo", cert:false, obsCert:"Cita en Centro de Salud de Olopa programada para febrero.", vive:"Padre y madre", pobreza:"Pobreza extrema", actPadre:"Jornalero de café", actMadre:"Ama de casa", trabaja:false, estado:"Observado", fecha:"14/01/2027"},
+      {id:"EXP-2027-0009", escuela:"e1", nombre:"Carlos Daniel Vásquez Lima", codigo:"N406VTR", grado:"1.º primaria", tipo:"Intelectual", cert:true, obsCert:"", vive:"Padre y madre", pobreza:"No se encuentra en pobreza", actPadre:"Comerciante", actMadre:"Maestra", trabaja:false, estado:"Pre-registrado", fecha:"15/01/2027"},
+      {id:"EXP-2027-0011", escuela:"e2", nombre:"Yeimi Paola Súchite Ramírez", codigo:"B659SXC", grado:"Preparatoria", tipo:"Acondroplasia", cert:true, obsCert:"", vive:"Solo con la madre", pobreza:"Pobreza extrema", actPadre:"No aplica", actMadre:"Venta de leña", trabaja:false, estado:"Seleccionado", fecha:"11/01/2027"}
+    ],
+    beneficiarios:[
+      {codigo:"A218GHT", nombre:"Ángel Mauricio Lemus Pérez", grado:"5.º primaria", escuela:"e1", renov:null},
+      {codigo:"D901KRL", nombre:"Fátima Rocío Cordón Ruiz", grado:"2.º primaria", escuela:"e1", renov:null},
+      {codigo:"F377BNM", nombre:"Edwin Rolando Paz Morales", grado:"3.º básico", escuela:"e1", renov:null},
+      {codigo:"J554WQE", nombre:"Heidy Marisol Ramos Lucas", grado:"4.º primaria", escuela:"e2", renov:"promovido"},
+      {codigo:"L640ZPU", nombre:"Óscar Iván Pérez Interiano", grado:"6.º primaria", escuela:"e4", renov:null}
+    ],
+    // cifras departamentales reportadas en la entrevista
+    becasTotal:318, renovacionesBase:250, vacantes:68,
+    renovConfirmadasBase:191
+  };
+}
+let S = seed();
+
+const ROLES = {
+  director:{nombre:"Directora Elsa Marina Guerra", cargo:"Directora", tabs:["info","centro","preregistro","renovacion","estado"]},
+  supervisor:{nombre:"Lic. Rodolfo Cardona", cargo:"Supervisor educativo, distrito 20-05", tabs:["info","centro","preregistro","renovacion","estado"]},
+  comite:{nombre:"Coordinación DIGEESP", cargo:"Comité de selección DIDEDUC", tabs:["info","comite","expedientes"]}
+};
+const TAB_LABEL = {info:"Información", ingreso:"Ingresar", centro:"Centro educativo", preregistro:"Pre-registro", renovacion:"Renovación", estado:"Estado del trámite", comite:"Panel del comité", expedientes:"Expedientes"};
+
+// ---------- Utilidades ----------
+const $ = (s,r=document)=>r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const escuela = id => ESCUELAS.find(e=>e.id===id);
+function toast(msg){const t=$("#toast");t.textContent=msg;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,2600)}
+function hoy(){const d=new Date();return String(d.getDate()).padStart(2,"0")+"/"+String(d.getMonth()+1).padStart(2,"0")+"/2027"}
+function pillClass(e){return {"Pre-registrado":"s-pre","En revisión":"s-rev","Observado":"s-obs","Seleccionado":"s-sel","Pagado":"s-pag","No seleccionado":"s-no"}[e]||"s-pre"}
+function pill(e){return `<span class="pill ${pillClass(e)}">${esc(e)}</span>`}
+// Indicador de apoyo para el comité (no decide: ordena)
+function prioridad(x){
+  let p=0;
+  if(x.pobreza==="Pobreza extrema")p+=4; else if(x.pobreza==="Pobreza")p+=2;
+  if(x.vive!=="Padre y madre")p+=2;
+  if(x.trabaja)p+=1;
+  if(x.cert)p+=1;
+  return p;
+}
+function prioTag(x){const p=prioridad(x);const n=p>=6?"alta":p>=3?"media":"baja";return `<span class="prio p-${n}">${p} · ${n}</span>`}
+
+// ---------- Navegación ----------
+function tabsFor(){return S.rol?ROLES[S.rol].tabs:["info","ingreso"]}
+function current(){const h=location.hash.slice(1);return tabsFor().includes(h)?h:tabsFor()[0]}
+function go(v){if(location.hash.slice(1)===v)render();else location.hash=v}
+window.addEventListener("hashchange",render);
+
+function renderChrome(view){
+  $("#tabs").innerHTML = tabsFor().map(t=>`<button class="tab" type="button" data-go="${t}" ${t===view?'aria-current="page"':""}>${TAB_LABEL[t]}</button>`).join("");
+  $("#who").innerHTML = S.rol
+    ? `<span><strong>${esc(ROLES[S.rol].nombre)}</strong><br>${esc(ROLES[S.rol].cargo)}</span><button class="btn ghost sm" type="button" data-act="salir">Salir</button>`
+    : `<button class="btn sm" type="button" data-go="ingreso">Ingresar</button>`;
+}
+
+function render(){
+  const v=current();
+  renderChrome(v);
+  const fn={info:vInfo,ingreso:vIngreso,centro:vCentro,preregistro:vPre,renovacion:vRenov,estado:vEstado,comite:vComite,expedientes:vExped}[v];
+  $("#main").innerHTML=`<section class="view">${fn()}</section>`;
+  if(v==="preregistro")bindPre();
+  window.scrollTo(0,0);
+}
+
+// ---------- Vistas ----------
+function vInfo(){return `
+  <div class="hero">
+    <div style="display:grid;gap:10px">
+      <span class="eyebrow" style="color:inherit;opacity:.8">Programa del MINEDUC · Chiquimula</span>
+      <h1>Beca escolar para estudiantes con discapacidad</h1>
+      <p>Apoyo económico anual para estudiantes con discapacidad inscritos en establecimientos oficiales, desde preprimaria hasta diversificado, sin límite de edad.</p>
+    </div>
+    <div class="amount"><span class="q">Q2,000</span><small>al año, en un solo depósito</small></div>
+  </div>
+
+  <div class="note maiz"><span class="ic">!</span><div><b>El pre-registro está abierto todo el año.</b> La convocatoria oficial dura alrededor de una semana en el primer trimestre. Si el expediente ya está en la plataforma, no se pierde el plazo.</div></div>
+
+  <div class="grid2">
+    <div class="card">
+      <span class="eyebrow">Requisitos</span>
+      <h2>Qué se necesita</h2>
+      <ul class="clean">
+        <li><b>Discapacidad comprobada</b> con constancia médica de puesto o centro de salud, clínica u hospital.</li>
+        <li><b>Condición de pobreza extrema</b>, verificada con el informe socioeconómico.</li>
+        <li>Estar inscrito en un <b>establecimiento oficial</b> y contar con <b>código personal</b> en el SIRE.</li>
+      </ul>
+      <span class="eyebrow">Tipos de discapacidad que cubre</span>
+      <div class="chips">${TIPOS.map(t=>`<span class="chip">${t==="Otra diagnosticada"?"Cualquier otra debidamente diagnosticada":t}</span>`).join("")}</div>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Proceso</span>
+      <h2>Cómo se aplica</h2>
+      <ol class="steps">
+        <li><div><b>Pre-registro</b><span>El director o supervisor registra al estudiante en la plataforma.</span></div></li>
+        <li><div><b>Expediente digital</b><span>El sistema genera un número de expediente y verifica que estén los requisitos.</span></div></li>
+        <li><div><b>Selección</b><span>El comité de la DIDEDUC (Despacho, Programas de Apoyo y coordinación DIGEESP) revisa y selecciona.</span></div></li>
+        <li><div><b>Notificación</b><span>Supervisor, director y familia ven el resultado en la plataforma.</span></div></li>
+        <li><div><b>Pago</b><span>Depósito único del MINEDUC en cuenta Banrural, de preferencia a nombre de la madre.</span></div></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <span class="eyebrow">Continuidad</span>
+      <h2>Cómo seguir siendo beneficiado</h2>
+      <ul class="clean">
+        <li>La beca <b>se renueva cada año</b> si el estudiante <b>gana el grado</b>.</li>
+        <li>Se pierde si el estudiante <b>reprueba</b> o <b>se traslada a un colegio privado</b>.</li>
+        <li>El director confirma la promoción en la sección <i>Renovación</i>, sin volver a armar el expediente.</li>
+      </ul>
+      <div class="note"><span class="ic">i</span><div><b>¿Escuela sin internet?</b> El supervisor educativo puede ingresar los datos en nombre del centro.</div></div>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Base legal</span>
+      <h2>Fundamento</h2>
+      <div class="law">
+        <div><b>Constitución Política de la República de Guatemala</b><span>Arts. 53 (protección a personas con discapacidad) y 74 (educación obligatoria y gratuita).</span></div>
+        <div><b>Ley de Educación Nacional, Decreto 12-91</b><span>Capítulo de Educación Especial.</span></div>
+        <div><b>Ley de Atención a las Personas con Discapacidad, Decreto 135-96</b></div>
+        <div><b>Ley de Educación Especial para las Personas con Capacidades Especiales, Decreto 58-2007</b></div>
+        <div><b>Acuerdo Ministerial 2539-2007</b><span>Becas para estudiantes con discapacidad de escuelas oficiales. Reformado por los Acuerdos Ministeriales 000428-2009 y 3276-2011.</span></div>
+      </div>
+    </div>
+  </div>
+  ${S.rol?"":`<div class="actions"><button class="btn" type="button" data-go="ingreso">Ingresar a la plataforma</button><span class="lead">Acceso para directores, supervisores y DIGEESP.</span></div>`}
+`}
+
+function vIngreso(){return `
+  <div style="display:grid;gap:6px"><h1>Ingresar</h1><p class="lead">Cada rol ve solo la información que le corresponde. Los datos de discapacidad son confidenciales.</p></div>
+  <div class="roles">
+    <button class="role" type="button" data-login="director"><span class="ini">D</span><b>Director(a)</b><span>Registra el centro, pre-registra estudiantes y confirma renovaciones.</span></button>
+    <button class="role" type="button" data-login="supervisor"><span class="ini">S</span><b>Supervisor(a) educativo</b><span>Hace lo mismo por las escuelas de su distrito, incluidas las que no tienen internet.</span></button>
+    <button class="role" type="button" data-login="comite"><span class="ini">C</span><b>DIGEESP / Comité</b><span>Revisa expedientes, ordena por prioridad, selecciona y da seguimiento.</span></button>
+  </div>
+  <div class="note"><span class="ic">i</span><div>En la versión real el acceso sería con usuario y contraseña institucional del MINEDUC. En esta demostración basta con elegir un rol.</div></div>
+`}
+
+function escuelasRol(){return S.rol==="supervisor"?ESCUELAS:[ESCUELAS[0]]}
+function selectorEscuela(){
+  if(S.rol!=="supervisor")return "";
+  return `<div class="toolbar"><label class="f" for="selEsc">Actuar por el centro educativo
+    <select id="selEsc" data-act="esc">${ESCUELAS.map(e=>`<option value="${e.id}" ${e.id===S.escuela?"selected":""}>${esc(e.nombre)} · ${esc(e.municipio)}${e.internet?"":" (sin internet)"}</option>`).join("")}</select></label></div>`;
+}
+
+function vCentro(){
+  const e=escuela(S.escuela);
+  const n=S.expedientes.filter(x=>x.escuela===e.id).length, b=S.beneficiarios.filter(x=>x.escuela===e.id).length;
+  return `
+  <div style="display:grid;gap:6px"><h1>Perfil del centro educativo</h1><p class="lead">Se llena una vez. Los pre-registros quedan vinculados a este centro.</p></div>
+  ${selectorEscuela()}
+  ${e.internet?"":`<div class="note maiz"><span class="ic">!</span><div><b>Centro sin conexión.</b> El supervisor ingresa estos datos y los pre-registros a partir del formulario impreso que entrega el director.</div></div>`}
+  <form id="fCentro" class="card">
+    <div class="row">
+      <label class="f" for="cNom">Nombre del centro educativo<input type="text" id="cNom" value="${esc(e.nombre)}"></label>
+      <label class="f" for="cCod">Código del establecimiento<input type="text" id="cCod" class="mono" value="${esc(e.codigo)}"></label>
+    </div>
+    <div class="row">
+      <label class="f" for="cMun">Ubicación (municipio)<input type="text" id="cMun" value="${esc(e.municipio)}, Chiquimula"></label>
+      <label class="f" for="cPob">Población que atiende<input type="text" id="cPob" value="${esc(e.poblacion)}"></label>
+      <label class="f" for="cDoc">Cantidad de docentes<input type="number" id="cDoc" min="1" value="${e.docentes}"></label>
+    </div>
+    <div class="actions"><button class="btn" type="submit">Guardar perfil</button><span class="lead">${n} pre-registro(s) y ${b} beneficiario(s) vinculados.</span></div>
+  </form>`;
+}
+
+function vPre(){
+  const e=escuela(S.escuela);
+  return `
+  <div style="display:grid;gap:6px"><h1>Pre-registro de estudiante</h1><p class="lead">Centro: <b>${esc(e.nombre)}</b> (${esc(e.municipio)}). Al finalizar se genera el expediente digital.</p></div>
+  ${selectorEscuela()}
+  <form id="fPre" novalidate>
+    <fieldset><legend>1. Datos del estudiante</legend>
+      <label class="f" for="pCod">Código personal (SIRE)<small>Prueba con K481TQM, M207LZA, P915RHD o C330WEN.</small>
+        <span class="inline"><input type="text" id="pCod" class="mono" placeholder="Ej. K481TQM" autocomplete="off"><button class="btn ghost" type="button" data-act="sire">Buscar en SIRE</button></span></label>
+      <div class="row">
+        <label class="f" for="pNom">Nombre del estudiante<input type="text" id="pNom" readonly placeholder="Se completa desde el SIRE"></label>
+        <label class="f" for="pGra">Grado<input type="text" id="pGra" readonly placeholder="Se completa desde el SIRE"></label>
+      </div>
+    </fieldset>
+    <fieldset><legend>2. Discapacidad</legend>
+      <div class="f" role="group" aria-label="Tipo de discapacidad"><b style="font-size:.9rem">Tipo de discapacidad</b>
+        <div class="opts">${TIPOS.map((t,i)=>`<label class="opt" for="pT${i}"><input type="radio" name="pTipo" id="pT${i}" value="${t}">${t}</label>`).join("")}</div></div>
+      <div class="f" role="group" aria-label="Certificado médico"><b style="font-size:.9rem">¿Cuenta con certificado o constancia médica?</b>
+        <div class="opts"><label class="opt" for="pCs"><input type="radio" name="pCert" id="pCs" value="si">Sí</label><label class="opt" for="pCn"><input type="radio" name="pCert" id="pCn" value="no">No</label></div></div>
+      <label class="f" for="pObs" id="obsWrap" hidden>¿Por qué no cuenta con certificado médico?<textarea id="pObs" placeholder="Ej. Tiene cita en el centro de salud el próximo mes."></textarea></label>
+    </fieldset>
+    <fieldset><legend>3. Condiciones sociales</legend>
+      <div class="row">
+        <label class="f" for="pViv">¿Con quién vive?<select id="pViv"><option value="">Seleccione</option><option>Padre y madre</option><option>Solo con la madre</option><option>Solo con el padre</option><option>Con abuelos</option><option>Con otro familiar o encargado</option></select></label>
+        <label class="f" for="pPob">Condición<select id="pPob"><option value="">Seleccione</option><option>Pobreza extrema</option><option>Pobreza</option><option>No se encuentra en pobreza</option></select></label>
+      </div>
+    </fieldset>
+    <fieldset><legend>4. Condiciones económicas</legend>
+      <div class="row">
+        <label class="f" for="pAp">Actividad económica del padre<input type="text" id="pAp" placeholder="Ej. Jornalero agrícola"></label>
+        <label class="f" for="pAm">Actividad económica de la madre o encargado<input type="text" id="pAm" placeholder="Ej. Ama de casa"></label>
+      </div>
+      <label class="check" for="pTrab"><input type="checkbox" id="pTrab"> El estudiante trabaja</label>
+    </fieldset>
+    <fieldset><legend>5. Verificación antes de enviar</legend>
+      <label class="check" for="k1"><input type="checkbox" id="k1"> Se adjuntará la constancia médica (o se explicó por qué falta).</label>
+      <label class="check" for="k2"><input type="checkbox" id="k2"> Se llenó el informe socioeconómico con la familia.</label>
+      <label class="check" for="k3"><input type="checkbox" id="k3"> El padre, madre o encargado firmó la autorización de uso de datos.</label>
+      <label class="check" for="k4"><input type="checkbox" id="k4"> Declaro que la información proporcionada es verídica y acepto los términos y condiciones.</label>
+    </fieldset>
+    <p class="err" id="pErr" hidden></p>
+    <div class="actions"><button class="btn" type="submit">Generar expediente digital</button><button class="btn ghost" type="button" data-act="ejemplo">Llenar con ejemplo</button></div>
+  </form>
+  <div id="pOk"></div>`;
+}
+
+function bindPre(){
+  document.querySelectorAll('input[name="pCert"]').forEach(r=>r.addEventListener("change",()=>{$("#obsWrap").hidden=$("#pCn").checked?false:true}));
+}
+
+function sire(){
+  const c=$("#pCod").value.trim().toUpperCase(); $("#pCod").value=c;
+  const r=SIRE[c];
+  if(!r){$("#pNom").value="";$("#pGra").value="";toast("Código no encontrado en el SIRE de demostración");return false}
+  if(S.expedientes.some(x=>x.codigo===c)){toast("Este estudiante ya tiene un expediente");}
+  $("#pNom").value=r.nombre;$("#pGra").value=r.grado;return true;
+}
+
+function ejemplo(){
+  const libres=Object.keys(SIRE).filter(c=>!S.expedientes.some(x=>x.codigo===c));
+  const c=libres[0]||"K481TQM";
+  $("#pCod").value=c; sire();
+  $("#pT0").checked=true; $("#pCs").checked=true; $("#obsWrap").hidden=true;
+  $("#pViv").value="Solo con la madre"; $("#pPob").value="Pobreza extrema";
+  $("#pAp").value="No aplica"; $("#pAm").value="Lavado de ropa ajena";
+  ["k1","k2","k3","k4"].forEach(k=>$("#"+k).checked=true);
+}
+
+function submitPre(){
+  const err=[];
+  if(!$("#pNom").value)err.push("busque el código en el SIRE");
+  const tipo=document.querySelector('input[name="pTipo"]:checked');
+  if(!tipo)err.push("elija el tipo de discapacidad");
+  const cert=document.querySelector('input[name="pCert"]:checked');
+  if(!cert)err.push("indique si tiene certificado médico");
+  if(cert&&cert.value==="no"&&!$("#pObs").value.trim())err.push("explique por qué no tiene certificado");
+  if(!$("#pViv").value)err.push("indique con quién vive");
+  if(!$("#pPob").value)err.push("indique la condición de pobreza");
+  if(!["k1","k2","k3","k4"].every(k=>$("#"+k).checked))err.push("marque las cuatro verificaciones");
+  const box=$("#pErr");
+  if(err.length){box.hidden=false;box.textContent="Falta: "+err.join(", ")+".";return}
+  box.hidden=true;
+  S.seq++;
+  const sinCert=cert.value==="no";
+  const x={id:"EXP-2027-"+String(S.seq).padStart(4,"0"), escuela:S.escuela, nombre:$("#pNom").value, codigo:$("#pCod").value, grado:$("#pGra").value,
+    tipo:tipo.value, cert:!sinCert, obsCert:$("#pObs").value.trim(), vive:$("#pViv").value, pobreza:$("#pPob").value,
+    actPadre:$("#pAp").value||"No indicada", actMadre:$("#pAm").value||"No indicada", trabaja:$("#pTrab").checked,
+    estado:sinCert?"Observado":"Pre-registrado", fecha:hoy()};
+  S.expedientes.unshift(x);
+  $("#fPre").hidden=true;
+  $("#pOk").innerHTML=`<div class="receipt">
+    <span class="eyebrow">Expediente digital generado</span>
+    <span class="code">${x.id}</span>
+    <p><b>${esc(x.nombre)}</b> · ${esc(x.grado)} · ${esc(escuela(x.escuela).nombre)}</p>
+    <p>${pill(x.estado)} ${sinCert?"Queda observado hasta que se adjunte la constancia médica.":"Listo para la revisión del comité cuando abra la convocatoria."}</p>
+    <div class="actions"><button class="btn" type="button" data-go="estado">Ver estado del trámite</button><button class="btn ghost" type="button" data-act="otro">Registrar otro estudiante</button></div>
+  </div>`;
+  toast("Expediente "+x.id+" generado");
+}
+
+function vRenov(){
+  const lista=S.beneficiarios.filter(b=>escuelasRol().some(e=>e.id===b.escuela)&&(S.rol!=="supervisor"||b.escuela===S.escuela));
+  const row=b=>`<tr><td><b>${esc(b.nombre)}</b><small class="mono">${b.codigo}</small></td><td>${esc(b.grado)}</td>
+    <td>${b.renov?({promovido:pill("Seleccionado").replace("Seleccionado","Renovada"),reprobo:`<span class="pill s-no">Pierde la beca: reprobó</span>`,traslado:`<span class="pill s-no">Pierde la beca: colegio privado</span>`}[b.renov]):`<span class="pill s-rev">Pendiente</span>`}</td>
+    <td><div class="actions">${b.renov?`<button class="btn ghost sm" type="button" data-renov="${b.codigo}" data-val="">Deshacer</button>`:`<button class="btn ok sm" type="button" data-renov="${b.codigo}" data-val="promovido">Ganó el grado</button><button class="btn bad sm" type="button" data-renov="${b.codigo}" data-val="reprobo">Reprobó</button><button class="btn warn sm" type="button" data-renov="${b.codigo}" data-val="traslado">Se trasladó</button>`}</div></td></tr>`;
+  return `
+  <div style="display:grid;gap:6px"><h1>Renovación de becas</h1><p class="lead">La mayoría de becas del departamento son renovaciones. Basta con confirmar si cada beneficiario ganó el grado.</p></div>
+  ${selectorEscuela()}
+  <div class="tbl"><table><thead><tr><th>Beneficiario</th><th>Grado actual</th><th>Resultado</th><th>Confirmar</th></tr></thead>
+  <tbody>${lista.length?lista.map(row).join(""):`<tr><td colspan="4">Este centro no tiene beneficiarios actuales.</td></tr>`}</tbody></table></div>
+  <div class="note"><span class="ic">i</span><div>Al cerrar el ciclo escolar, las becas no renovadas se suman automáticamente a las vacantes para nuevos estudiantes.</div></div>`;
+}
+
+function timeline(x){
+  if(x.estado==="Observado")return `<ul class="timeline"><li class="on">Pre-registrado</li><li class="on">Observado: falta constancia</li></ul>`;
+  if(x.estado==="No seleccionado")return `<ul class="timeline"><li class="on">Pre-registrado</li><li class="on">En revisión</li><li class="on">No seleccionado</li></ul>`;
+  const i=ESTADOS.indexOf(x.estado);
+  return `<ul class="timeline">${ESTADOS.map((s,j)=>`<li class="${j<=i?"on":""}">${s}</li>`).join("")}</ul>`;
+}
+
+function vEstado(){
+  const lista=S.expedientes.filter(x=>x.escuela===S.escuela);
+  return `
+  <div style="display:grid;gap:6px"><h1>Estado del trámite</h1><p class="lead">Lo que ve el centro educativo. Sirve para avisar a la familia sin que tenga que viajar a la departamental.</p></div>
+  ${selectorEscuela()}
+  ${lista.length?lista.map(x=>`<div class="card">
+    <div class="actions" style="justify-content:space-between"><span class="mono">${x.id}</span>${pill(x.estado)}</div>
+    <h3>${esc(x.nombre)}</h3>
+    <p class="lead">${esc(x.grado)} · pre-registrado el ${x.fecha}</p>
+    ${timeline(x)}
+    ${x.estado==="Observado"?`<div class="note maiz"><span class="ic">!</span><div>Falta la constancia médica. ${esc(x.obsCert)} <div class="actions" style="margin-top:8px"><button class="btn sm" type="button" data-cert="${x.id}">Adjuntar constancia</button></div></div></div>`:""}
+    ${x.estado==="Seleccionado"?`<p><b>Monto:</b> Q2,000.00 anuales · <b>Pago:</b> depósito en cuenta Banrural, fecha por confirmar por el MINEDUC.</p>`:""}
+    ${x.estado==="Pagado"?`<p><b>Depositado:</b> Q2,000.00 en cuenta Banrural.</p>`:""}
+  </div>`).join(""):`<div class="card"><p>Este centro aún no tiene expedientes. <button class="btn sm" type="button" data-go="preregistro">Pre-registrar estudiante</button></p></div>`}`;
+}
+
+function contar(){
+  const sel=S.expedientes.filter(x=>x.estado==="Seleccionado"||x.estado==="Pagado").length;
+  const renov=S.renovConfirmadasBase+S.beneficiarios.filter(b=>b.renov==="promovido").length;
+  return {sel, renov, libres:S.vacantes-sel, cand:S.expedientes.length};
+}
+
+function vComite(){
+  const c=contar();
+  const porTipo=TIPOS.map(t=>[t,S.expedientes.filter(x=>x.tipo===t).length]).filter(a=>a[1]);
+  const porMun=[...new Set(ESCUELAS.map(e=>e.municipio))].map(m=>[m,S.expedientes.filter(x=>escuela(x.escuela).municipio===m).length]);
+  const max=Math.max(1,...porMun.map(a=>a[1]));
+  return `
+  <div style="display:grid;gap:6px"><h1>Panel del comité</h1><p class="lead">Convocatoria 2027 · Departamento de Chiquimula. Cifras departamentales según entrevista a la coordinación DIGEESP; los expedientes son una muestra ficticia.</p></div>
+  <div class="kpis">
+    <div class="kpi"><span>Becas del departamento</span><b class="num">${S.becasTotal}</b><span>cupo anual</span></div>
+    <div class="kpi"><span>Renovaciones confirmadas</span><b class="num">${c.renov}<small style="font-size:1rem;color:var(--muted)"> / ${S.renovacionesBase}</small></b><div class="bar"><i style="width:${Math.min(100,c.renov/S.renovacionesBase*100)}%"></i></div></div>
+    <div class="kpi hl"><span>Vacantes nuevas disponibles</span><b class="num">${c.libres}<small style="font-size:1rem;color:var(--muted)"> / ${S.vacantes}</small></b><span>${c.sel} ya asignada(s)</span></div>
+    <div class="kpi"><span>Expedientes en la plataforma</span><b class="num">${c.cand}</b><span>en 2026 hubo ~300 candidatos</span></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><span class="eyebrow">Expedientes por municipio</span>
+      ${porMun.map(([m,n])=>`<div style="display:grid;grid-template-columns:150px 1fr 28px;gap:10px;align-items:center;font-size:.9rem"><span>${esc(m)}</span><div class="bar"><i style="width:${n/max*100}%;background:var(--accent)"></i></div><span class="num">${n}</span></div>`).join("")}
+    </div>
+    <div class="card"><span class="eyebrow">Por tipo de discapacidad</span>
+      <div class="chips">${porTipo.map(([t,n])=>`<span class="chip">${t} · <b class="num">${n}</b></span>`).join("")}</div>
+      <div class="note"><span class="ic">i</span><div>Información confidencial. Solo el comité ve los datos completos de cada estudiante.</div></div>
+    </div>
+  </div>
+  <div class="actions"><button class="btn" type="button" data-go="expedientes">Revisar expedientes</button></div>`;
+}
+
+let filtro={mun:"",est:""};
+function vExped(){
+  const lista=S.expedientes
+    .filter(x=>(!filtro.mun||escuela(x.escuela).municipio===filtro.mun)&&(!filtro.est||x.estado===filtro.est))
+    .sort((a,b)=>prioridad(b)-prioridad(a));
+  const c=contar();
+  const muns=[...new Set(ESCUELAS.map(e=>e.municipio))];
+  const ests=["Pre-registrado","En revisión","Observado","Seleccionado","No seleccionado","Pagado"];
+  return `
+  <div style="display:grid;gap:6px"><h1>Expedientes</h1><p class="lead">Ordenados por indicador de prioridad (pobreza, hogar, trabajo infantil, constancia). El indicador ordena; la decisión es del comité.</p></div>
+  <div class="toolbar">
+    <label class="f" for="fMun">Municipio<select id="fMun" data-filtro="mun"><option value="">Todos</option>${muns.map(m=>`<option ${m===filtro.mun?"selected":""}>${esc(m)}</option>`).join("")}</select></label>
+    <label class="f" for="fEst">Estado<select id="fEst" data-filtro="est"><option value="">Todos</option>${ests.map(m=>`<option ${m===filtro.est?"selected":""}>${m}</option>`).join("")}</select></label>
+    <span class="chip">Vacantes: <b class="num">${c.libres}</b> de ${S.vacantes}</span>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Prioridad</th><th>Estudiante</th><th>Discapacidad</th><th>Condición</th><th>Estado</th><th>Acción</th></tr></thead>
+    <tbody>${lista.length?lista.map(x=>`<tr>
+      <td>${prioTag(x)}</td>
+      <td><b>${esc(x.nombre)}</b><small class="mono">${x.id} · ${x.codigo}</small><small>${esc(escuela(x.escuela).nombre)}, ${esc(escuela(x.escuela).municipio)}</small></td>
+      <td>${esc(x.tipo)}<small>${x.cert?"Con constancia médica":"Sin constancia: "+esc(x.obsCert)}</small></td>
+      <td>${esc(x.pobreza)}<small>${esc(x.vive)}${x.trabaja?" · trabaja":""}</small><small>Padre: ${esc(x.actPadre)} · Madre: ${esc(x.actMadre)}</small></td>
+      <td>${pill(x.estado)}</td>
+      <td><div class="actions">${acciones(x,c)}</div></td>
+    </tr>`).join(""):`<tr><td colspan="6">No hay expedientes con estos filtros.</td></tr>`}</tbody>
+  </table></div>`;
+}
+function acciones(x,c){
+  const b=(v,cls,t,dis)=>`<button class="btn ${cls} sm" type="button" data-est="${x.id}" data-val="${v}" ${dis?"disabled":""}>${t}</button>`;
+  switch(x.estado){
+    case "Pre-registrado": return b("En revisión","ghost","Iniciar revisión");
+    case "En revisión": return b("Seleccionado","ok","Seleccionar",c.libres<=0)+b("Observado","warn","Observar")+b("No seleccionado","bad","No seleccionar");
+    case "Observado": return b("En revisión","ghost","Volver a revisión");
+    case "Seleccionado": return b("Pagado","ghost","Registrar pago")+b("En revisión","ghost","Deshacer");
+    case "No seleccionado": return b("En revisión","ghost","Deshacer");
+    default: return `<span class="lead" style="font-size:.85rem">Completado</span>`;
+  }
+}
+
+// ---------- Eventos ----------
+document.addEventListener("click",ev=>{
+  const t=ev.target.closest("button");if(!t)return;
+  if(t.dataset.go){go(t.dataset.go);return}
+  if(t.dataset.login){S.rol=t.dataset.login;S.escuela="e1";go(ROLES[S.rol].tabs[1]);toast("Sesión iniciada: "+ROLES[S.rol].cargo);return}
+  if(t.dataset.renov){const b=S.beneficiarios.find(x=>x.codigo===t.dataset.renov);b.renov=t.dataset.val||null;render();return}
+  if(t.dataset.est){const x=S.expedientes.find(e=>e.id===t.dataset.est);x.estado=t.dataset.val;render();toast(x.id+": "+x.estado);return}
+  if(t.dataset.cert){const x=S.expedientes.find(e=>e.id===t.dataset.cert);x.cert=true;x.obsCert="";x.estado="Pre-registrado";render();toast("Constancia adjuntada");return}
+  switch(t.dataset.act){
+    case "salir": S.rol=null;go("info");break;
+    case "sire": sire();break;
+    case "ejemplo": ejemplo();break;
+    case "otro": render();break;
+  }
+  if(t.id==="reset"){S=seed();filtro={mun:"",est:""};go("info");toast("Demostración reiniciada")}
+});
+document.addEventListener("change",ev=>{
+  const t=ev.target;
+  if(t.dataset.act==="esc"){S.escuela=t.value;render()}
+  if(t.dataset.filtro){filtro[t.dataset.filtro]=t.value;render()}
+});
+document.addEventListener("submit",ev=>{
+  ev.preventDefault();
+  if(ev.target.id==="fPre")submitPre();
+  if(ev.target.id==="fCentro"){const e=escuela(S.escuela);e.nombre=$("#cNom").value;e.codigo=$("#cCod").value;e.poblacion=$("#cPob").value;e.docentes=+$("#cDoc").value||e.docentes;toast("Perfil guardado");render()}
+});
+document.addEventListener("keydown",ev=>{if(ev.key==="Enter"&&ev.target.id==="pCod"){ev.preventDefault();sire()}});
+
+render();
+})();
+</script>
+</body>
+</html>
