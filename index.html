@@ -320,6 +320,7 @@ const SERVICIOS=[["agua","Agua entubada"],["luz","Energía eléctrica"],["drenaj
 const EGRESOS=[["alim","Alimentación"],["viv","Vivienda o alquiler"],["serv","Agua, luz y gas"],["trans","Transporte"],["salud","Salud y medicamentos"],["educ","Educación"]];
 const SIRE = { // registro simulado del SIRE
   "K481TQM":{nombre:"Daniela Guadalupe Ramos Pérez", grado:"3.º primaria", nivel:"Primaria"},
+  "Y602KPR":{nombre:"Kimberly Yesenia Ramírez Paz", grado:"2.º primaria", nivel:"Primaria"},
   "M207LZA":{nombre:"José Esteban Cardona Lemus", grado:"5.º primaria", nivel:"Primaria"},
   "P915RHD":{nombre:"Ana Lucía Interiano Vásquez", grado:"1.º básico", nivel:"Medio, ciclo básico"},
   "C330WEN":{nombre:"Brayan Alexis Ramírez Súchite", grado:"Preparatoria", nivel:"Preprimaria"},
@@ -396,6 +397,12 @@ function seed(){
         egr:E(1300,0,50,0,120,80), viv:V("Propia","Tierra","Adobe","Lámina",["luz","letrina"],2), acc:{min:35,medio:"A pie"}, sal:{terapia:false,gasto:120},
         estado:"Verificado", fecha:"10/11/2026", log:[L("10/11/2026","Dirección del centro","Pre-registro"),L("10/11/2026","Supervisión educativa","Visto bueno de la Supervisión")]})
     ],
+    seqSol:5, prefill:null,
+    solicitudes:[
+      {id:"SOL-20-2027-0005",fecha:"12/11/2026",escuela:"e8",est:"Rosa Elvira Guerra Pérez",codigo:"",tipo:"Física",sol:{n:"Elvira Pérez",p:"Madre",t:"3355-2010"},estado:"Pendiente",exp:"",log:[L("12/11/2026","Familia","Solicitud enviada desde la plataforma")]},
+      {id:"SOL-20-2027-0004",fecha:"11/11/2026",escuela:"e1",est:"Kimberly Yesenia Ramírez Paz",codigo:"Y602KPR",tipo:"Visual",sol:{n:"Ana Paz",p:"Madre",t:"4120-7788"},estado:"Pendiente",exp:"",log:[L("11/11/2026","Familia","Solicitud enviada desde la plataforma")]},
+      {id:"SOL-20-2027-0002",fecha:"21/10/2026",escuela:"e3",est:"Marvin Josué Lemus Cruz",codigo:"",tipo:"Auditiva",sol:{n:"Marvin Lemus",p:"Padre",t:"4790-3321"},estado:"Pendiente",exp:"",log:[L("21/10/2026","Familia","Solicitud enviada desde la plataforma")]}
+    ],
     beneficiarios:[
       {codigo:"A218GHT", nombre:"Ángel Mauricio Lemus Pérez", grado:"5.º primaria", escuela:"e1", asis:94, renov:""},
       {codigo:"D901KRL", nombre:"Fátima Rocío Cordón Ruiz", grado:"2.º primaria", escuela:"e1", asis:81, renov:""},
@@ -416,7 +423,7 @@ const ROLES = {
   comite:{nombre:"Comité de Becas", cargo:"DIDEDUC Chiquimula", tabs:["panel","expedientes","convocatoria","demanda","info"]},
   nacional:{nombre:"DIGEESP Central", cargo:"Ministerio de Educación", tabs:["nacional","info"]}
 };
-const TAB_LABEL = {info:"Información", consulta:"Consultar trámite", ingreso:"Ingresar", inicio:"Inicio", distrito:"Distrito", verificacion:"Visto bueno", notificaciones:"Resultados por notificar", preregistro:"Pre-registro", formulario:"Formulario impreso", renovacion:"Renovación y seguimiento", estado:"Expedientes del centro", centro:"Centro educativo", panel:"Panel", expedientes:"Banco de elegibles", convocatoria:"Convocatoria", demanda:"Reporte de demanda", nacional:"Vista nacional"};
+const TAB_LABEL = {info:"Información", solicitud:"Solicitar la beca", consulta:"Consultar trámite", ingreso:"Ingresar", inicio:"Inicio", distrito:"Distrito", verificacion:"Visto bueno", notificaciones:"Resultados por notificar", preregistro:"Pre-registro", formulario:"Formulario impreso", renovacion:"Renovación y seguimiento", estado:"Expedientes del centro", centro:"Centro educativo", panel:"Panel", expedientes:"Banco de elegibles", convocatoria:"Convocatoria", demanda:"Reporte de demanda", nacional:"Vista nacional"};
 
 // ================= Utilidades =================
 const $ = (s,r=document)=>r.querySelector(s);
@@ -459,12 +466,14 @@ function prioTag(x){const p=prioridad(x).total;const n=p>=6?"alta":p>=3?"media":
 async function copiar(texto,el){try{await navigator.clipboard.writeText(texto);toast("Mensaje copiado")}catch(e){if(el){const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r)}toast("Selecciona el texto y cópialo")}}
 
 // ================= Navegación =================
-function tabsFor(){return S.rol?ROLES[S.rol].tabs:["info","consulta","ingreso"]}
+function tabsFor(){return S.rol?ROLES[S.rol].tabs:["info","solicitud","consulta","ingreso"]}
 function current(){const h=location.hash.slice(1);return tabsFor().includes(h)?h:tabsFor()[0]}
-function go(v){S.detalle=null;if(location.hash.slice(1)===v)render();else location.hash=v}
-window.addEventListener("hashchange",()=>{S.detalle=null;render()});
+function go(v){S.detalle=null;if(v!=="preregistro")S.prefill=null;if(location.hash.slice(1)===v)render();else location.hash=v}
+window.addEventListener("hashchange",()=>{S.detalle=null;if(location.hash!=="#preregistro")S.prefill=null;render()});
 
 function badge(t){
+  if(t==="inicio"&&S.rol==="director"){const n=solsDirector().length;return n?`<span class="cnt">${n}</span>`:""}
+  if(t==="distrito"){const n=solsSupervision().length;return n?`<span class="cnt">${n}</span>`:""}
   if(t==="renovacion"&&S.rol){const n=misBenef().filter(b=>!b.renov).length;return n?`<span class="cnt">${n}</span>`:""}
   if(t==="verificacion"){const n=S.expedientes.filter(x=>x.estado==="Por verificar").length;return n?`<span class="cnt">${n}</span>`:""}
   if(t==="notificaciones"){const n=porNotificar().length;return n?`<span class="cnt">${n}</span>`:""}
@@ -480,7 +489,7 @@ function renderChrome(view){
 function render(){
   const v=current();
   renderChrome(v);
-  const fn={info:vInfo,consulta:vConsulta,ingreso:vIngreso,inicio:vInicio,distrito:vDistrito,verificacion:vVerif,notificaciones:vNotif,preregistro:vPre,formulario:vFormulario,renovacion:vRenov,estado:vEstado,centro:vCentro,panel:vPanel,expedientes:vExped,convocatoria:vConv,demanda:vDemanda,nacional:vNacional}[v];
+  const fn={info:vInfo,solicitud:vSolicitud,consulta:vConsulta,ingreso:vIngreso,inicio:vInicio,distrito:vDistrito,verificacion:vVerif,notificaciones:vNotif,preregistro:vPre,formulario:vFormulario,renovacion:vRenov,estado:vEstado,centro:vCentro,panel:vPanel,expedientes:vExped,convocatoria:vConv,demanda:vDemanda,nacional:vNacional}[v];
   $("#main").innerHTML=`<section class="view">${fn()}</section>`;
   if(v==="preregistro")initPre();
   if(vozOK()&&$("#btnEsc"))$("#btnEsc").hidden=false;
@@ -513,6 +522,64 @@ function selectorEscuela(){
 function misBenef(){return S.beneficiarios.filter(b=>b.escuela===S.escuela)}
 function misExp(){return S.expedientes.filter(x=>x.escuela===S.escuela)}
 
+// ================= Solicitudes iniciadas por la familia =================
+function parseF(f){const [d,m,y]=f.split("/").map(Number);return new Date(y,m-1,d)}
+function diasHabiles(f){let d=parseF(f),n=0;const h=new Date();h.setHours(0,0,0,0);while(d<h){d.setDate(d.getDate()+1);const w=d.getDay();if(w&&w<6)n++}return n}
+const PLAZO_SOL=10;
+function solEscalada(s){return s.estado==="Pendiente"&&(!escuela(s.escuela).internet||diasHabiles(s.fecha)>PLAZO_SOL)}
+function solsDirector(){return S.solicitudes.filter(s=>s.escuela===S.escuela&&s.estado==="Pendiente"&&escuela(s.escuela).internet)}
+function solsSupervision(){return S.solicitudes.filter(solEscalada)}
+function vSolicitud(){return `
+  <div class="head"><h1>Solicitar la beca</h1><p class="lead">Para padres, madres, encargados o estudiantes mayores de edad. Con estos datos la escuela lo contacta para completar el expediente. No necesita subir documentos.</p></div>
+  <form id="fSol" class="card" novalidate>
+    <div class="row">
+      <label class="f" for="sNom">Nombre completo del estudiante<input type="text" id="sNom" autocomplete="off"></label>
+      <label class="f" for="sCod">Código personal del estudiante<small>Opcional. Aparece en la tarjeta de calificaciones.</small><input type="text" id="sCod" class="mono" autocomplete="off"></label>
+    </div>
+    <div class="row">
+      <label class="f" for="sEsc">Escuela donde estudia<select id="sEsc"><option value="">Seleccione</option>${ESCUELAS.map(e=>`<option value="${e.id}">${esc(e.nombre)} · ${esc(e.municipio)}</option>`).join("")}</select></label>
+      <label class="f" for="sTip">Tipo de discapacidad<select id="sTip"><option value="">Seleccione</option>${TIPOS.map(t=>`<option>${t}</option>`).join("")}</select></label>
+    </div>
+    <div class="row">
+      <label class="f" for="sSol">Nombre de quien solicita<input type="text" id="sSol" autocomplete="off"></label>
+      <label class="f" for="sPar">Parentesco<select id="sPar"><option value="">Seleccione</option><option>Madre</option><option>Padre</option><option>Abuela</option><option>Abuelo</option><option>Tutor o encargado</option><option>El mismo estudiante</option></select></label>
+      <label class="f" for="sTel">Teléfono<input type="tel" id="sTel" placeholder="0000-0000"></label>
+    </div>
+    <label class="check" for="sAut"><input type="checkbox" id="sAut"> Autorizo que la escuela y la Supervisión usen estos datos solo para contactarme sobre la beca.</label>
+    <p class="err" id="sErr" hidden></p>
+    <div class="actions"><button class="btn" type="submit">Enviar solicitud</button><button class="btn ghost" type="button" data-act="solEjemplo">Llenar con ejemplo</button></div>
+  </form>
+  <div id="sOk"></div>
+  <div class="note"><span class="ic">i</span><div>La solicitud llega a la dirección de la escuela. Si en ${PLAZO_SOL} días hábiles no la atiende, o si la escuela no tiene conexión, pasa a la Supervisión educativa.</div></div>`}
+function enviarSol(){
+  const v=k=>$("#"+k).value.trim(), err=[];
+  if(!v("sNom"))err.push("el nombre del estudiante");if(!v("sEsc"))err.push("la escuela");if(!v("sTip"))err.push("el tipo de discapacidad");
+  if(!v("sSol")||!v("sPar"))err.push("quién solicita");if(!/\d{4}/.test(v("sTel")))err.push("un teléfono");if(!$("#sAut").checked)err.push("la autorización");
+  if(err.length){$("#sErr").hidden=false;$("#sErr").textContent="Falta: "+err.join(", ")+".";return}
+  S.seqSol++;const s={id:"SOL-20-2027-"+String(S.seqSol).padStart(4,"0"),fecha:hoy(),escuela:v("sEsc"),est:v("sNom"),codigo:v("sCod").toUpperCase(),tipo:v("sTip"),sol:{n:v("sSol"),p:v("sPar"),t:v("sTel")},estado:"Pendiente",exp:"",log:[L(hoy(),"Familia","Solicitud enviada desde la plataforma")]};
+  S.solicitudes.unshift(s);
+  const e=escuela(s.escuela);
+  $("#fSol").hidden=true;
+  $("#sOk").innerHTML=`<div class="receipt"><span class="eyebrow">Solicitud enviada</span><span class="code">${s.id}</span>
+    <p>${e.internet?`La dirección de <b>${esc(e.nombre)}</b> la recibió y lo contactará al ${esc(s.sol.t)} para completar el expediente.`:`Como <b>${esc(e.nombre)}</b> no tiene conexión, la recibió directamente la Supervisión educativa, que lo contactará al ${esc(s.sol.t)}.`}</p>
+    <p class="lead">Guarde este número. Puede consultar su solicitud en <b>Consultar trámite</b> con el número y su teléfono.</p></div>`;
+  toast("Solicitud "+s.id+" enviada");
+}
+function solEstadoTxt(s){
+  if(s.estado==="Atendida")return `La escuela inició el expediente ${s.exp}. Consulte con ese número y el código personal del estudiante.`;
+  if(solEscalada(s))return "La solicitud está con la Supervisión educativa, que se comunicará con usted.";
+  return "La solicitud está con la dirección de la escuela, que se comunicará con usted.";
+}
+function tablaSol(lista,quien){
+  if(!lista.length)return "";
+  return `<div class="card"><span class="eyebrow">Solicitudes de familias${quien==="sup"?" que pasaron a la Supervisión":""}</span>
+  <div class="tbl"><table><thead><tr><th>Estudiante</th>${quien==="sup"?"<th>Escuela</th>":""}<th>Quién solicita</th><th>Recibida</th><th></th></tr></thead><tbody>
+  ${lista.map(s=>{const d=diasHabiles(s.fecha), e=escuela(s.escuela);return `<tr><td><b>${esc(s.est)}</b><small class="mono">${s.id}</small><small>${esc(s.tipo)}</small></td>
+   ${quien==="sup"?`<td>${esc(e.nombre)}<small>${e.internet?`Sin respuesta de la escuela en ${d} días hábiles`:"Escuela sin conexión"}</small></td>`:""}
+   <td>${esc(s.sol.n)} (${esc(s.sol.p)})<small>Tel. ${esc(s.sol.t)}</small></td>
+   <td>${s.fecha}<small>${quien==="dir"?(d>=PLAZO_SOL-3?`<span style="color:var(--bad);font-weight:700">Quedan ${Math.max(0,PLAZO_SOL-d)} días hábiles</span>`:`Quedan ${PLAZO_SOL-d} días hábiles`):""}</small></td>
+   <td><button class="btn sm" type="button" data-atender="${s.id}">Iniciar pre-registro</button></td></tr>`}).join("")}</tbody></table></div></div>`;
+}
 // ================= Lectura en voz alta =================
 function vozOK(){return "speechSynthesis" in window&&typeof SpeechSynthesisUtterance!=="undefined"}
 function vozES(){const v=speechSynthesis.getVoices().filter(x=>/^es/i.test(x.lang));return v.find(x=>/es[-_](GT|MX|US|419)/i.test(x.lang))||v[0]||null}
@@ -532,7 +599,7 @@ function vInfo(){return `
       <h1>Beca escolar para estudiantes con discapacidad</h1>
       <p>Apoyo económico anual para estudiantes con discapacidad inscritos en establecimientos oficiales, desde preprimaria hasta el nivel medio, para favorecer su permanencia en el sistema educativo.</p>
       <div class="amount"><span class="q">Q2,000</span><small>anuales, depositados en cuenta bancaria</small></div>
-      <div class="actions"><button class="btn ghost sm" type="button" data-act="escuchar" id="btnEsc" hidden><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg><span>Escuchar esta página</span></button></div>
+      <div class="actions">${S.rol?"":`<button class="btn sm" type="button" data-go="solicitud">Solicitar la beca</button>`}<button class="btn ghost sm" type="button" data-act="escuchar" id="btnEsc" hidden><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg><span>Escuchar esta página</span></button></div>
     </div>
     <div class="seals"><figure class="seal" aria-label="BEDis en braille"><svg viewBox="0 0 46 46" aria-hidden="true"><rect width="46" height="46" rx="10" fill="#2f3a8f"/><circle cx="16" cy="9.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="16" cy="13.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="16" cy="17.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="20" cy="9.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="20" cy="13.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="20" cy="17.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="26" cy="9.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="26" cy="13.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="26" cy="17.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="30" cy="9.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="30" cy="13.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="30" cy="17.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="11" cy="28.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="11" cy="32.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="11" cy="36.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="15" cy="28.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="15" cy="32.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="15" cy="36.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="21" cy="28.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="21" cy="32.5" r="1.75" fill="#f0b429" fill-opacity="1"/><circle cx="21" cy="36.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="25" cy="28.5" r="1.75" fill="#f0b429" fill-opacity="1"/><circle cx="25" cy="32.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="25" cy="36.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="31" cy="28.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="31" cy="32.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="31" cy="36.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="35" cy="28.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="35" cy="32.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="35" cy="36.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/></svg><figcaption>«be / dis» en braille</figcaption></figure><button class="seal sealbtn" type="button" data-act="lensegua" aria-label="Ver información en Lengua de Señas de Guatemala"><svg viewBox="0 0 46 46" aria-hidden="true"><rect width="46" height="46" rx="10" fill="#2f3a8f"/><g transform="translate(10 12.6) scale(0.040625)"><g fill="#fff"><path d="M290.547 189.039c-20.295-10.149-44.147-11.199-64.739-3.89 42.606 0 71.208 20.475 85.578 50.576 8.576 17.899-5.148 38.071-23.617 38.071 18.429 0 32.211 20.136 23.617 38.071-14.725 30.846-46.123 50.854-80.298 50.854-.557 0-94.471-8.615-94.471-8.615l-66.406 33.347c-9.384 4.693-19.815.379-23.895-7.781L1.86 290.747c-4.167-8.615-1.111-18.897 6.946-23.621l58.072-33.069L108 159.861c6.39-57.245 34.731-109.767 79.743-146.726 11.391-9.448 28.341-7.781 37.51 3.613 9.446 11.394 7.78 28.067-3.612 37.516-12.503 10.559-23.618 22.509-32.509 35.57 21.672-14.729 46.679-24.732 74.186-28.067 14.725-1.945 28.063 8.336 29.73 23.065 1.945 14.728-8.336 28.067-23.062 29.734-16.116 1.945-31.12 7.503-44.178 15.284 26.114-5.713 58.712-3.138 88.079 11.115 13.336 6.669 18.893 22.509 12.224 35.848-6.389 13.06-22.504 18.617-35.564 12.226zm-27.229 69.472c-6.112-12.505-18.338-20.286-32.231-20.286a35.46 35.46 0 0 0-35.565 35.57c0 21.428 17.808 35.57 35.565 35.57 13.893 0 26.119-7.781 32.231-20.286 4.446-9.449 13.614-15.006 23.339-15.284-9.725-.277-18.893-5.835-23.339-15.284zm374.821-37.237c4.168 8.615 1.111 18.897-6.946 23.621l-58.071 33.069L532 352.16c-6.39 57.245-34.731 109.767-79.743 146.726-10.932 9.112-27.799 8.144-37.51-3.613-9.446-11.394-7.78-28.067 3.613-37.516 12.503-10.559 23.617-22.509 32.508-35.57-21.672 14.729-46.679 24.732-74.186 28.067-10.021 2.506-27.552-5.643-29.73-23.065-1.945-14.728 8.336-28.067 23.062-29.734 16.116-1.946 31.12-7.503 44.178-15.284-26.114 5.713-58.712 3.138-88.079-11.115-13.336-6.669-18.893-22.509-12.224-35.848 6.389-13.061 22.505-18.619 35.565-12.227 20.295 10.149 44.147 11.199 64.739 3.89-42.606 0-71.208-20.475-85.578-50.576-8.576-17.899 5.148-38.071 23.617-38.071-18.429 0-32.211-20.136-23.617-38.071 14.033-29.396 44.039-50.887 81.966-50.854l92.803 8.615 66.406-33.347c9.408-4.704 19.828-.354 23.894 7.781l44.455 88.926zm-229.227-18.618c-13.893 0-26.119 7.781-32.231 20.286-4.446 9.449-13.614 15.006-23.339 15.284 9.725.278 18.893 5.836 23.339 15.284 6.112 12.505 18.338 20.286 32.231 20.286a35.46 35.46 0 0 0 35.565-35.57c0-21.429-17.808-35.57-35.565-35.57z"></path></g></g></svg><span class="cap">Información en LENSEGUA</span></button></div>
   </div>
@@ -551,7 +618,7 @@ function vInfo(){return `
       <span class="eyebrow">Proceso</span>
       <h2>Cómo se solicita</h2>
       <ol class="steps">
-        <li><div><b>Pre-registro en la escuela</b><span>El director llena el estudio socioeconómico con la familia y adjunta los documentos. Si la escuela no tiene internet, usa el formulario impreso y lo ingresa la Supervisión.</span></div></li>
+        <li><div><b>Pre-registro en la escuela</b><span>La familia puede iniciar la solicitud en "Solicitar la beca", o acudir directamente a la escuela. El director llena el estudio socioeconómico con la familia y adjunta los documentos. Si la escuela no tiene internet, usa el formulario impreso y lo ingresa la Supervisión.</span></div></li>
         <li><div><b>Visto bueno de la Supervisión</b><span>El supervisor verifica que el expediente esté completo. Si falta algo, lo devuelve a la escuela.</span></div></li>
         <li><div><b>Banco de elegibles</b><span>El expediente verificado queda listo antes de que abra la convocatoria.</span></div></li>
         <li><div><b>Revisión y selección</b><span>El Comité de Becas de la DIDEDUC revisa los expedientes y selecciona según la disponibilidad de becas. Lo integran un representante del Despacho Departamental, Programas de Apoyo y la coordinación departamental de la DIGEESP.</span></div></li>
@@ -601,14 +668,16 @@ function vConsulta(){return `
   <div class="head"><h1>Consultar un trámite</h1><p class="lead">Para padres, madres y encargados. Solo muestra el estado del trámite, sin datos personales ni de salud.</p></div>
   <form id="fCons" class="card" novalidate>
     <div class="row">
-      <label class="f" for="cExp">Número de expediente<small>Lo entrega la escuela. Prueba con EXP-20-2027-0011</small><input type="text" id="cExp" class="mono" placeholder="EXP-20-2027-0000" autocomplete="off"></label>
-      <label class="f" for="cSire">Código personal del estudiante<small>Prueba con B659SXC</small><input type="text" id="cSire" class="mono" placeholder="Ej. B659SXC" autocomplete="off"></label>
+      <label class="f" for="cExp">Número de expediente o de solicitud<small>Prueba con EXP-20-2027-0011 o SOL-20-2027-0002</small><input type="text" id="cExp" class="mono" placeholder="EXP-20-2027-0000" autocomplete="off"></label>
+      <label class="f" for="cSire">Código personal del estudiante o teléfono<small>Prueba con B659SXC o 4790-3321</small><input type="text" id="cSire" class="mono" placeholder="Ej. B659SXC" autocomplete="off"></label>
     </div>
     <div class="actions"><button class="btn" type="submit">Consultar</button></div>
   </form>
   <div id="cRes"></div>`}
 function consultar(){
   const id=$("#cExp").value.trim().toUpperCase(), cod=$("#cSire").value.trim().toUpperCase();
+  if(id.startsWith("SOL")){const so=S.solicitudes.find(z=>z.id===id&&(z.sol.t.replace(/\D/g,"")===cod.replace(/\D/g,"")||(z.codigo&&z.codigo===cod)));
+    $("#cRes").innerHTML=so?`<div class="card"><div class="actions" style="justify-content:space-between"><span class="mono">${so.id}</span><span class="pill ${so.estado==="Atendida"?"s-sel":"s-rev"}">${so.estado==="Atendida"?"Atendida":"En proceso"}</span></div><h3>Solicitud del ${so.fecha} · ${esc(escuela(so.escuela).nombre)}</h3><p data-leer>${solEstadoTxt(so)}</p>${vozOK()?`<div><button class="btn ghost sm" type="button" data-act="escucharRes">Escuchar el resultado</button></div>`:""}</div>`:`<div class="note maiz"><span class="ic">!</span><div>No encontramos una solicitud con esos datos. Revise el número y el teléfono.</div></div>`;return}
   const x=S.expedientes.find(e=>e.id===id&&e.codigo===cod);
   if(!x){$("#cRes").innerHTML=`<div class="note maiz"><span class="ic">!</span><div>No encontramos un expediente con esos datos. Revise el número y el código, o consulte en la dirección de la escuela.</div></div>`;return}
   const ini=x.nombre.split(" ").map(p=>p[0]).join(".")+".";
@@ -630,13 +699,15 @@ function vIngreso(){return `
 `}
 
 // ================= Director / Supervisor =================
-function vInicio(){
+function vInicio(){ return vInicioBase().replace("<!--SOL-->",tablaSol(solsDirector(),"dir")) }
+function vInicioBase(){
   const e=escuela(S.escuela), ex=misExp(), bn=misBenef();
   const pend=bn.filter(b=>!b.renov).length, obs=ex.filter(x=>x.estado==="Observado").length;
   return `
   <div class="head"><h1>${esc(e.nombre)}</h1><p class="lead">${esc(e.municipio)}, Chiquimula · Código ${esc(e.codigo)} · ${e.internet?"Con conexión":"Sin conexión: atendida por la Supervisión"}</p></div>
   ${selectorEscuela()}
   ${convBar()}
+  <!--SOL-->
   <div class="kpis">
     <div class="kpi"><span>Expedientes pre-registrados</span><b class="num">${ex.length}</b><span>en el banco de elegibles</span></div>
     <div class="kpi"><span>Becados actuales</span><b class="num">${bn.length}</b><span>del centro</span></div>
@@ -655,7 +726,7 @@ function vInicio(){
 }
 
 function vPre(){
-  if(S.rol==="supervisor"&&escuela(S.escuela).internet)S.escuela=ESCUELAS.find(e=>!e.internet).id;
+  if(S.rol==="supervisor"&&escuela(S.escuela).internet&&!S.prefill)S.escuela=ESCUELAS.find(e=>!e.internet).id;
   const e=escuela(S.escuela);
   return `
   <div class="head"><h1>Pre-registro de estudiante</h1><p class="lead">Centro: <b>${esc(e.nombre)}</b> (${esc(e.municipio)}). Al terminar se genera el expediente digital y queda en el banco de elegibles.</p></div>
@@ -779,7 +850,13 @@ function verDoc(src,titulo){
   v.hidden=false;$("#vClose").focus();
 }
 function rowH(h){h=h||{};return `<tr><td><input type="text" class="hn" aria-label="Nombre" value="${esc(h.n||"")}"></td><td><input type="text" class="hp" aria-label="Parentesco" value="${esc(h.p||"")}" style="min-width:100px"></td><td><input type="number" class="he" aria-label="Edad" min="0" max="110" value="${h.e===undefined?"":h.e}" style="width:76px;min-width:0"></td><td><input type="text" class="ho" aria-label="Ocupación" value="${esc(h.o||"")}"></td><td><input type="number" class="hi" aria-label="Ingreso mensual" min="0" step="50" value="${h.i||0}" style="width:110px;min-width:0"></td><td><button class="btn ghost sm" type="button" data-delh aria-label="Quitar integrante">Quitar</button></td></tr>`}
-function initPre(){$("#hBody").innerHTML=rowH()+rowH();calcPre()}
+function initPre(){$("#hBody").innerHTML=rowH()+rowH();
+  const so=S.prefill&&S.solicitudes.find(z=>z.id===S.prefill);
+  if(so){ if(so.codigo){$("#pCod").value=so.codigo;sire()}
+    $("#eNom").value=so.sol.p==="El mismo estudiante"?"":so.sol.n; if([...$("#ePar").options].some(o=>o.text===so.sol.p))$("#ePar").value=so.sol.p; $("#eTel").value=so.sol.t;
+    const r=[...document.querySelectorAll('input[name="pTipo"]')].find(x=>x.value===so.tipo); if(r)r.checked=true;
+    $("#fPre").insertAdjacentHTML("afterbegin",`<div class="note ok"><span class="ic">✓</span><div>Completando la solicitud <b>${so.id}</b> de ${esc(so.sol.n)} para <b>${esc(so.est)}</b>. Datos de contacto y tipo de discapacidad ya ingresados.</div></div>`);}
+  calcPre()}
 function leerPre(){
   const hogar=[...document.querySelectorAll("#hBody tr")].map(tr=>({n:tr.querySelector(".hn").value.trim(),p:tr.querySelector(".hp").value.trim(),e:tr.querySelector(".he").value,o:tr.querySelector(".ho").value.trim(),i:+tr.querySelector(".hi").value||0})).filter(h=>h.n);
   const area=(document.querySelector('input[name="pArea"]:checked')||{}).value||"";
@@ -810,13 +887,17 @@ function sire(){
   $("#pNom").value=r.nombre;$("#pGra").value=r.grado;$("#pNiv").value=r.nivel;return true;
 }
 function ejemplo(){
-  const libre=Object.keys(SIRE).find(c=>!S.expedientes.some(x=>x.codigo===c));
-  if(!libre){toast("Ya se usaron todos los códigos de ejemplo");return}
-  $("#pCod").value=libre; sire();
-  $("#pT0").checked=true; $("#pCs").checked=true; $("#pAs").checked=true; $("#obsWrap").hidden=true;
-  $("#eNom").value="Lucía Pérez Ramos"; $("#ePar").value="Madre"; $("#eTel").value="5544-1290";
+  const pre=S.prefill&&$("#pNom").value;
+  if(!pre){
+    const libre=Object.keys(SIRE).find(c=>!S.expedientes.some(x=>x.codigo===c)&&!S.solicitudes.some(z=>z.codigo===c&&z.estado==="Pendiente"));
+    if(!libre){toast("Ya se usaron todos los códigos de ejemplo");return}
+    $("#pCod").value=libre; sire();
+    $("#pT0").checked=true;
+    $("#eNom").value="Lucía Pérez Ramos"; $("#ePar").value="Madre"; $("#eTel").value="5544-1290";
+  } else if(!$("#eNom").value){$("#eNom").value="Ana Paz";$("#ePar").value="Madre"}
+  $("#pCs").checked=true; $("#pAs").checked=true; $("#obsWrap").hidden=true;
   $("#aR").checked=true; $("#pViv").value="Solo con la madre";
-  $("#hBody").innerHTML=[{n:"Lucía Pérez Ramos",p:"Madre",e:34,o:"Lavado de ropa ajena",i:900},{n:$("#pNom").value,p:"Hijo(a)",e:9,o:"Estudiante",i:0},{n:"Mario Pérez Ramos",p:"Hijo",e:12,o:"Estudiante",i:0},{n:"Elsa Ramos",p:"Abuela",e:63,o:"Oficios del hogar",i:0},{n:"Luis Pérez Ramos",p:"Hijo",e:3,o:"",i:0}].map(rowH).join("");
+  $("#hBody").innerHTML=[{n:$("#eNom").value||"Lucía Pérez Ramos",p:$("#ePar").value||"Madre",e:34,o:"Lavado de ropa ajena",i:900},{n:$("#pNom").value,p:"Hijo(a)",e:9,o:"Estudiante",i:0},{n:"Mario Pérez Ramos",p:"Hijo",e:12,o:"Estudiante",i:0},{n:"Elsa Ramos",p:"Abuela",e:63,o:"Oficios del hogar",i:0},{n:"Luis Pérez Ramos",p:"Hijo",e:3,o:"",i:0}].map(rowH).join("");
   $("#oRem").value=300; $("#oProg").value=0; $("#oOtr").value=0;
   [["alim",900],["viv",0],["serv",45],["trans",0],["salud",60],["educ",50]].forEach(([k,v])=>$("#g_"+k).value=v);
   $("#vTen").value="Prestada"; $("#vPiso").value="Tierra"; $("#vPar").value="Adobe"; $("#vTec").value="Lámina"; $("#vCua").value=1;
@@ -862,6 +943,7 @@ function submitPre(){
     <p class="lead">Entregue a la familia el número de expediente. Con él y el código personal puede consultar el trámite.</p>
     <div class="actions">${S.rol==="director"?`<button class="btn" type="button" data-go="estado">Ver expedientes del centro</button>`:""}<button class="btn ghost" type="button" data-act="otro">Registrar otro estudiante</button></div>
   </div>`;
+  if(S.prefill){const so=S.solicitudes.find(z=>z.id===S.prefill);if(so){so.estado="Atendida";so.exp=x.id;so.log.push(L(hoy(),quien(),"Atendida: se inició el expediente "+x.id));log(x,"Iniciado a partir de la solicitud de la familia "+so.id)}S.prefill=null}
   renderChrome(current());
   toast("Expediente "+x.id+" generado");
 }
@@ -941,8 +1023,10 @@ function vDistrito(){
     <div class="kpi"><span>Centros del distrito</span><b class="num">${ESCUELAS.length}</b><span>${ESCUELAS.filter(e=>!e.internet).length} sin conexión</span></div>
     <div class="kpi ${S.expedientes.some(x=>x.estado==="Por verificar")?"hl":""}"><span>Por dar visto bueno</span><b class="num">${S.expedientes.filter(x=>x.estado==="Por verificar").length}</b><span>expedientes de las escuelas</span></div>
     <div class="kpi ${porNotificar().length?"hl":""}"><span>Resultados por notificar</span><b class="num">${porNotificar().length}</b><span>del Comité a las escuelas</span></div>
+    <div class="kpi ${solsSupervision().length?"bad":""}"><span>Solicitudes de familias</span><b class="num">${solsSupervision().length}</b><span>sin atender por la escuela</span></div>
     <div class="kpi ${sinReg?"bad":""}"><span>Escuelas sin pre-registros</span><b class="num">${sinReg}</b><span>requieren búsqueda activa</span></div>
   </div>
+  ${tablaSol(solsSupervision(),"sup")}
   <div class="tbl"><table>
     <thead><tr><th>Centro educativo</th><th>Conexión</th><th class="num">Expedientes</th><th class="num">Por verificar</th><th class="num">Becados</th><th class="num">Renovación sin reportar</th><th>Seguimiento</th></tr></thead>
     <tbody>${filas.map(f=>`<tr>
@@ -1274,6 +1358,7 @@ document.addEventListener("click",ev=>{
   if(t.dataset.recordar){toast("Recordatorio enviado a "+escuela(t.dataset.recordar).nombre);return}
   if(t.dataset.regpor){S.escuela=t.dataset.regpor;go("preregistro");return}
   if(t.dataset.delh!==undefined){t.closest("tr").remove();calcPre();return}
+  if(t.dataset.atender){const so=S.solicitudes.find(z=>z.id===t.dataset.atender);S.prefill=so.id;S.escuela=so.escuela;go("preregistro");return}
   if(t.dataset.muestra){if(usarMuestra(t.dataset.muestra))toast("Muestra adjuntada");return}
   if(t.dataset.verpre){const k=t.dataset.verpre;verDoc(preSrc[k],DOCS.find(d=>d[0]===k)[1]);return}
   if(t.dataset.verdoc){const x=S.expedientes.find(e=>e.id===t.dataset.exp),k=t.dataset.verdoc;verDoc((x.src&&x.src[k])||svgURI(docSVG(k,x)),DOCS.find(d=>d[0]===k)[1]+" · "+x.nombre);return}
@@ -1284,11 +1369,12 @@ document.addEventListener("click",ev=>{
     case "escuchar": leer([...document.querySelectorAll("#main [data-leer]")].map(e=>e.innerText).join(". "),t);break;
     case "escucharRes": leer([...document.querySelectorAll("#cRes h3, #cRes [data-leer]")].map(e=>e.innerText).join(". "),null);break;
     case "lensegua": {const c=$("#lensegua");c.scrollIntoView({behavior:"smooth",block:"center"});c.classList.add("flash");setTimeout(()=>c.classList.remove("flash"),1600);break}
+    case "solEjemplo": $("#sNom").value="Brayan Alexis Ramírez Súchite";$("#sCod").value="C330WEN";$("#sEsc").value="e1";$("#sTip").value="Intelectual";$("#sSol").value="Marta Súchite";$("#sPar").value="Madre";$("#sTel").value="5012-4478";$("#sAut").checked=true;$("#sErr").hidden=true;break;
     case "cambiarRol": S.rol=null;S.detalle=null;go("ingreso");break;
     case "cerrarVer": $("#viewer").hidden=true;break;
     case "sire": sire();break;
     case "ejemplo": ejemplo();break;
-    case "otro": preDocs={};preSrc={};render();break;
+    case "otro": preDocs={};preSrc={};S.prefill=null;render();break;
     case "volver": S.detalle=null;render();break;
     case "abrirConv": {
       S.conv.abierta=true;let n=0;
@@ -1319,6 +1405,7 @@ document.addEventListener("submit",ev=>{
   const id=ev.target.id;
   if(id==="fPre")submitPre();
   if(id==="fCons")consultar();
+  if(id==="fSol")enviarSol();
   if(id==="fCan"){CAN={cbaR:+$("#kCR").value||CAN.cbaR,cbaU:+$("#kCU").value||CAN.cbaU,caR:+$("#kAR").value||CAN.caR,caU:+$("#kAU").value||CAN.caU,fuente:"actualizado por el Comité el "+hoy()};render();toast("Valores actualizados: se recalcularon las clasificaciones")}
   if(id==="fConv"){S.conv.inicio=$("#cvI").value||S.conv.inicio;S.conv.fin=$("#cvF").value||S.conv.fin;render();toast("Fechas guardadas")}
   if(id==="fCentro"){const e=escuela(S.escuela);e.nombre=$("#cNom").value;e.codigo=$("#cCod").value;e.municipio=$("#cMun").value;e.poblacion=$("#cPob").value;e.docentes=+$("#cDoc").value||e.docentes;e.internet=$("#cNet").checked;toast("Datos del centro guardados");render()}
