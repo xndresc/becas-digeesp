@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>BEDIS</title>
+<title>BEDis</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
@@ -35,10 +35,11 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .top .wrap{display:flex;align-items:center;gap:12px;padding-block:10px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
 .mark{width:46px;height:46px;flex:none;display:block}
-.mark rect{fill:var(--accent)}
-.mark text{fill:var(--accent-ink);font-family:var(--f-display);font-weight:800}
+.mark text{font-family:var(--f-display)}
+#markSlot{display:contents}
 .brand b{font-family:var(--f-display);font-size:1.15rem;font-weight:800;letter-spacing:.04em;display:block;line-height:1.1;color:var(--accent)}
 .brand .sub{display:block;font-size:.85rem;color:var(--ink);font-weight:700}
+@media (max-width:560px){.brand small{display:none}.brand .sub{font-size:.8rem}}
 .brand small{color:var(--muted);font-size:.8rem}
 .who{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted);flex-wrap:wrap}
 .who strong{color:var(--ink)}
@@ -70,12 +71,29 @@ ul.clean{margin:0;padding-left:1.1em;display:grid;gap:6px}
 .mono{font-family:var(--f-mono);font-size:.88em}
 .ref{font-size:.82rem;color:var(--muted)}
 
-.hero{background:var(--accent);color:var(--accent-ink);border-radius:14px;padding:24px;display:grid;gap:16px;grid-template-columns:1fr auto;align-items:end}
-.hero p{opacity:.92;max-width:62ch}
-.amount{text-align:right}
+.hero{background:var(--accent-soft);color:var(--ink);border:1px solid var(--edge);border-radius:16px;padding:30px;display:grid;gap:28px;grid-template-columns:1fr auto;align-items:center}
+.hero p{max-width:62ch}
+.hero h1{color:var(--accent)}
+.amount .q{color:var(--accent)}
+.amount{margin-top:6px}
 .amount .q{font-family:var(--f-display);font-weight:800;font-size:clamp(2.2rem,7vw,3.4rem);line-height:1}
-.amount small{display:block;opacity:.85;font-size:.85rem}
-@media (max-width:560px){.hero{grid-template-columns:1fr}.amount{text-align:left}}
+.amount small{display:block;color:var(--muted);font-size:.85rem}
+.seals{display:flex;gap:18px;align-items:flex-start}
+.seal{margin:0;display:grid;justify-items:center;gap:10px;padding-inline:4px}
+.sealbtn{appearance:none;background:none;border:0;cursor:pointer;font:inherit;color:inherit;padding:0 4px;border-radius:12px}
+.sealbtn .cap,.seal figcaption{font-size:.8rem;color:var(--muted);letter-spacing:.03em;max-width:150px;text-align:center}
+.sealbtn:hover .cap{color:var(--accent);text-decoration:underline}
+.sealbtn:focus-visible{outline:3px solid var(--maiz);outline-offset:4px}
+.video{aspect-ratio:16/9;max-width:100%;border-radius:12px;background:var(--accent);color:var(--accent-ink);display:grid;place-content:center;justify-items:center;gap:8px;text-align:center;padding:20px}
+.video span{font-size:.88rem;opacity:.9;max-width:min(52ch,100%)}
+#lensegua{grid-template-columns:minmax(0,1fr)}
+.video{width:100%;max-width:720px;min-width:0}
+@media (max-width:640px){.video{aspect-ratio:auto;min-height:220px}.seals{gap:12px}}
+#lensegua.flash{box-shadow:0 0 0 4px var(--maiz);transition:box-shadow .3s}
+.seal svg{width:clamp(110px,13vw,160px);height:auto;display:block}
+.seal figcaption{font-size:.8rem;color:var(--muted);letter-spacing:.04em}
+.seal svg{filter:drop-shadow(0 4px 10px rgba(47,58,143,.25))}
+@media (max-width:640px){.hero{grid-template-columns:1fr}.seal svg{width:104px}}
 .convbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;border:1px solid var(--edge);background:var(--surface);border-radius:12px;padding:12px 16px}
 .convbar b{font-family:var(--f-display)}
 
@@ -235,8 +253,8 @@ footer .wrap{padding-block:18px;display:flex;gap:12px;justify-content:space-betw
 <header class="top">
   <div class="wrap">
     <div class="brand">
-      <svg class="mark" viewBox="0 0 46 46" aria-hidden="true"><rect width="46" height="46" rx="10"/><text x="9" y="21" font-size="17" textLength="28" lengthAdjust="spacingAndGlyphs">BE</text><text x="9" y="37" font-size="13.5" textLength="28" lengthAdjust="spacingAndGlyphs">DIS</text></svg>
-      <div><b>BEDIS</b><span class="sub">Becas para Estudiantes con Discapacidad</span><small>Ministerio de Educación · DIGEESP · DIDEDUC Chiquimula</small></div>
+      <span id="markSlot"></span>
+      <div><b>BEDis</b><span class="sub">Becas para Estudiantes con Discapacidad</span><small>Ministerio de Educación · DIGEESP · DIDEDUC Chiquimula</small></div>
     </div>
     <div class="size" role="group" aria-label="Tamaño de letra"><button class="btn ghost sm" type="button" data-act="fmenos" aria-label="Reducir letra">A−</button><button class="btn ghost sm" type="button" data-act="fmas" aria-label="Aumentar letra">A+</button></div>
     <div class="who" id="who"></div>
@@ -247,7 +265,7 @@ footer .wrap{padding-block:18px;display:flex;gap:12px;justify-content:space-betw
 <main class="wrap" id="main" tabindex="-1"></main>
 
 <footer><div class="wrap">
-  <span>BEDIS · Propuesta de mejora · Planeamiento Educativo · Licenciatura en Pedagogía y Administración Educativa, CUNORI-USAC, 2026.</span>
+  <span>Íconos de lengua de señas: Font Awesome (CC BY 4.0).<br>BEDis · Propuesta de mejora · Planeamiento Educativo · Licenciatura en Pedagogía y Administración Educativa, CUNORI-USAC, 2026.</span>
   <button class="btn ghost sm" id="reset" type="button">Reiniciar demostración</button>
 </div></footer>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -256,6 +274,29 @@ footer .wrap{padding-block:18px;display:flex;gap:12px;justify-content:space-betw
 <script>
 (function(){
 "use strict";
+// Ícono BEDis: la "i" del estudiante a tamaño completo; "BE" arriba a la izquierda, "D" y "s" a sus lados.
+function markSVG(cls){return `<svg class="${cls||""}" viewBox="0 0 46 46" aria-hidden="true">
+<rect width="46" height="46" rx="10" fill="#2f3a8f"/>
+<g class="mFig"><rect x="20" y="20.5" width="6" height="17" rx="1.2" fill="#fff"/><circle cx="23" cy="14.6" r="3.7" fill="#f0b429"/>
+<path d="M23 6.2 L32 9.6 L23 13 L14 9.6 Z" fill="#fff"/><path d="M17.2 10.9v2.4c1.8 1.3 9.8 1.3 11.6 0v-2.4" fill="#fff"/>
+<path d="M32 9.6v5.2" stroke="#f0b429" stroke-width="1.2" stroke-linecap="round"/><circle cx="32" cy="15.4" r="1" fill="#f0b429"/></g>
+<text class="mB" x="5" y="27.3" font-size="10" font-weight="800" fill="#fff">BE</text>
+<text class="mD" x="10" y="38.6" font-size="13.5" font-weight="800" fill="#fff">D</text>
+<text class="mS" x="28" y="38.6" font-size="13.5" font-weight="800" fill="#fff">s</text></svg>`}
+function layoutMark(svg){
+  const q=c=>svg.querySelector(c), B=q(".mB"), D=q(".mD"), S=q(".mS");
+  const wB=B.getComputedTextLength(), wD=D.getComputedTextLength(), wS=S.getComputedTextLength(), gap=1.8;
+  // la figura (centro c) necesita: ala del birrete (c-5.8) libre de "BE"; borla hasta c+9
+  let c=Math.max(wD+gap+3, wB+8.8);           // relativo al borde izquierdo del grupo
+  const right=Math.max(c+3+gap+wS, c+9.6);     // borde derecho del grupo
+  const x0=(46-right)/2, cx=x0+c;
+  q(".mFig").setAttribute("transform",`translate(${cx-23} 1.1)`);
+  B.setAttribute("x",x0); D.setAttribute("x",cx-3-gap-wD); S.setAttribute("x",cx+3+gap);
+}
+
+document.getElementById("markSlot").outerHTML=markSVG("mark");
+const fixMark=()=>document.querySelectorAll("svg.mark").forEach(layoutMark);
+fixMark(); if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fixMark);
 
 // ================= Catálogos =================
 const MUNICIPIOS = ["Chiquimula","San José La Arada","San Juan Ermita","Jocotán","Camotán","Olopa","Esquipulas","Concepción Las Minas","Quezaltepeque","San Jacinto","Ipala"];
@@ -442,6 +483,8 @@ function render(){
   const fn={info:vInfo,consulta:vConsulta,ingreso:vIngreso,inicio:vInicio,distrito:vDistrito,verificacion:vVerif,notificaciones:vNotif,preregistro:vPre,formulario:vFormulario,renovacion:vRenov,estado:vEstado,centro:vCentro,panel:vPanel,expedientes:vExped,convocatoria:vConv,demanda:vDemanda,nacional:vNacional}[v];
   $("#main").innerHTML=`<section class="view">${fn()}</section>`;
   if(v==="preregistro")initPre();
+  if(vozOK()&&$("#btnEsc"))$("#btnEsc").hidden=false;
+  if(vozOK())speechSynthesis.cancel();
   window.scrollTo(0,0);
 }
 
@@ -470,20 +513,33 @@ function selectorEscuela(){
 function misBenef(){return S.beneficiarios.filter(b=>b.escuela===S.escuela)}
 function misExp(){return S.expedientes.filter(x=>x.escuela===S.escuela)}
 
+// ================= Lectura en voz alta =================
+function vozOK(){return "speechSynthesis" in window&&typeof SpeechSynthesisUtterance!=="undefined"}
+function vozES(){const v=speechSynthesis.getVoices().filter(x=>/^es/i.test(x.lang));return v.find(x=>/es[-_](GT|MX|US|419)/i.test(x.lang))||v[0]||null}
+function leer(texto,btn){
+  if(!vozOK())return;
+  if(speechSynthesis.speaking){speechSynthesis.cancel();if(btn)btn.querySelector("span")&&(btn.querySelector("span").textContent="Escuchar esta página");return}
+  const u=new SpeechSynthesisUtterance(texto.replace(/Q2,000/g,"dos mil quetzales").replace(/\bQ(\d)/g,"$1 quetzales ").replace(/\s+/g," "));
+  u.lang="es-MX";const v=vozES();if(v)u.voice=v;u.rate=.95;
+  if(btn&&btn.querySelector("span")){btn.querySelector("span").textContent="Detener lectura";u.onend=u.onerror=()=>{const sp=btn.querySelector("span");if(sp)sp.textContent="Escuchar esta página"}}
+  speechSynthesis.speak(u);
+}
 // ================= Vistas públicas =================
 function vInfo(){return `
   <div class="hero">
-    <div style="display:grid;gap:10px">
-      <span class="eyebrow" style="color:inherit;opacity:.85">Programa del Ministerio de Educación</span>
+    <div style="display:grid;gap:10px" data-leer>
+      <span class="eyebrow">Programa del Ministerio de Educación</span>
       <h1>Beca escolar para estudiantes con discapacidad</h1>
       <p>Apoyo económico anual para estudiantes con discapacidad inscritos en establecimientos oficiales, desde preprimaria hasta el nivel medio, para favorecer su permanencia en el sistema educativo.</p>
+      <div class="amount"><span class="q">Q2,000</span><small>anuales, depositados en cuenta bancaria</small></div>
+      <div class="actions"><button class="btn ghost sm" type="button" data-act="escuchar" id="btnEsc" hidden><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg><span>Escuchar esta página</span></button></div>
     </div>
-    <div class="amount"><span class="q">Q2,000</span><small>anuales, depositados en cuenta bancaria</small></div>
+    <div class="seals"><figure class="seal" aria-label="BEDis en braille"><svg viewBox="0 0 46 46" aria-hidden="true"><rect width="46" height="46" rx="10" fill="#2f3a8f"/><circle cx="16" cy="9.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="16" cy="13.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="16" cy="17.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="20" cy="9.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="20" cy="13.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="20" cy="17.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="26" cy="9.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="26" cy="13.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="26" cy="17.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="30" cy="9.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="30" cy="13.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="30" cy="17.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="11" cy="28.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="11" cy="32.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="11" cy="36.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="15" cy="28.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="15" cy="32.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="15" cy="36.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="21" cy="28.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="21" cy="32.5" r="1.75" fill="#f0b429" fill-opacity="1"/><circle cx="21" cy="36.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="25" cy="28.5" r="1.75" fill="#f0b429" fill-opacity="1"/><circle cx="25" cy="32.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="25" cy="36.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="31" cy="28.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="31" cy="32.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="31" cy="36.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="35" cy="28.5" r="1.75" fill="#fff" fill-opacity="1"/><circle cx="35" cy="32.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/><circle cx="35" cy="36.5" r="1.75" fill="#ffffff" fill-opacity="0.16"/></svg><figcaption>«be / dis» en braille</figcaption></figure><button class="seal sealbtn" type="button" data-act="lensegua" aria-label="Ver información en Lengua de Señas de Guatemala"><svg viewBox="0 0 46 46" aria-hidden="true"><rect width="46" height="46" rx="10" fill="#2f3a8f"/><g transform="translate(10 12.6) scale(0.040625)"><g fill="#fff"><path d="M290.547 189.039c-20.295-10.149-44.147-11.199-64.739-3.89 42.606 0 71.208 20.475 85.578 50.576 8.576 17.899-5.148 38.071-23.617 38.071 18.429 0 32.211 20.136 23.617 38.071-14.725 30.846-46.123 50.854-80.298 50.854-.557 0-94.471-8.615-94.471-8.615l-66.406 33.347c-9.384 4.693-19.815.379-23.895-7.781L1.86 290.747c-4.167-8.615-1.111-18.897 6.946-23.621l58.072-33.069L108 159.861c6.39-57.245 34.731-109.767 79.743-146.726 11.391-9.448 28.341-7.781 37.51 3.613 9.446 11.394 7.78 28.067-3.612 37.516-12.503 10.559-23.618 22.509-32.509 35.57 21.672-14.729 46.679-24.732 74.186-28.067 14.725-1.945 28.063 8.336 29.73 23.065 1.945 14.728-8.336 28.067-23.062 29.734-16.116 1.945-31.12 7.503-44.178 15.284 26.114-5.713 58.712-3.138 88.079 11.115 13.336 6.669 18.893 22.509 12.224 35.848-6.389 13.06-22.504 18.617-35.564 12.226zm-27.229 69.472c-6.112-12.505-18.338-20.286-32.231-20.286a35.46 35.46 0 0 0-35.565 35.57c0 21.428 17.808 35.57 35.565 35.57 13.893 0 26.119-7.781 32.231-20.286 4.446-9.449 13.614-15.006 23.339-15.284-9.725-.277-18.893-5.835-23.339-15.284zm374.821-37.237c4.168 8.615 1.111 18.897-6.946 23.621l-58.071 33.069L532 352.16c-6.39 57.245-34.731 109.767-79.743 146.726-10.932 9.112-27.799 8.144-37.51-3.613-9.446-11.394-7.78-28.067 3.613-37.516 12.503-10.559 23.617-22.509 32.508-35.57-21.672 14.729-46.679 24.732-74.186 28.067-10.021 2.506-27.552-5.643-29.73-23.065-1.945-14.728 8.336-28.067 23.062-29.734 16.116-1.946 31.12-7.503 44.178-15.284-26.114 5.713-58.712 3.138-88.079-11.115-13.336-6.669-18.893-22.509-12.224-35.848 6.389-13.061 22.505-18.619 35.565-12.227 20.295 10.149 44.147 11.199 64.739 3.89-42.606 0-71.208-20.475-85.578-50.576-8.576-17.899 5.148-38.071 23.617-38.071-18.429 0-32.211-20.136-23.617-38.071 14.033-29.396 44.039-50.887 81.966-50.854l92.803 8.615 66.406-33.347c9.408-4.704 19.828-.354 23.894 7.781l44.455 88.926zm-229.227-18.618c-13.893 0-26.119 7.781-32.231 20.286-4.446 9.449-13.614 15.006-23.339 15.284 9.725.278 18.893 5.836 23.339 15.284 6.112 12.505 18.338 20.286 32.231 20.286a35.46 35.46 0 0 0 35.565-35.57c0-21.429-17.808-35.57-35.565-35.57z"></path></g></g></svg><span class="cap">Información en LENSEGUA</span></button></div>
   </div>
   ${convBar()}
 
   <div class="grid2">
-    <div class="card">
+    <div class="card" data-leer>
       <span class="eyebrow">Requisitos</span>
       <h2>Qué documentos se necesitan</h2>
       <ul class="clean">${DOCS.slice(0,3).map(d=>`<li><b>${d[1]}.</b> <span class="ref">${d[2]}</span></li>`).join("")}</ul>
@@ -491,7 +547,7 @@ function vInfo(){return `
       <span class="eyebrow">Discapacidades que cubre</span>
       <div class="chips">${TIPOS.map(t=>`<span class="chip">${t==="Otra diagnosticada"?"Cualquier otra debidamente diagnosticada":t}</span>`).join("")}</div>
     </div>
-    <div class="card">
+    <div class="card" data-leer>
       <span class="eyebrow">Proceso</span>
       <h2>Cómo se solicita</h2>
       <ol class="steps">
@@ -506,7 +562,7 @@ function vInfo(){return `
   </div>
 
   <div class="grid2">
-    <div class="card">
+    <div class="card" data-leer>
       <span class="eyebrow">Continuidad</span>
       <h2>Cómo se renueva la beca</h2>
       <ul class="clean">
@@ -531,6 +587,12 @@ function vInfo(){return `
     </div>
   </div>
 
+  <div class="card" id="lensegua">
+    <span class="eyebrow">Accesibilidad</span>
+    <h2>Información en Lengua de Señas de Guatemala</h2>
+    <div class="video" role="img" aria-label="Espacio para el video en LENSEGUA"><svg viewBox="0 0 46 46" width="64" height="64" aria-hidden="true"><rect width="46" height="46" rx="10" fill="#2f3a8f"/><g transform="translate(10 12.6) scale(0.040625)"><g fill="#fff"><path d="M290.547 189.039c-20.295-10.149-44.147-11.199-64.739-3.89 42.606 0 71.208 20.475 85.578 50.576 8.576 17.899-5.148 38.071-23.617 38.071 18.429 0 32.211 20.136 23.617 38.071-14.725 30.846-46.123 50.854-80.298 50.854-.557 0-94.471-8.615-94.471-8.615l-66.406 33.347c-9.384 4.693-19.815.379-23.895-7.781L1.86 290.747c-4.167-8.615-1.111-18.897 6.946-23.621l58.072-33.069L108 159.861c6.39-57.245 34.731-109.767 79.743-146.726 11.391-9.448 28.341-7.781 37.51 3.613 9.446 11.394 7.78 28.067-3.612 37.516-12.503 10.559-23.618 22.509-32.509 35.57 21.672-14.729 46.679-24.732 74.186-28.067 14.725-1.945 28.063 8.336 29.73 23.065 1.945 14.728-8.336 28.067-23.062 29.734-16.116 1.945-31.12 7.503-44.178 15.284 26.114-5.713 58.712-3.138 88.079 11.115 13.336 6.669 18.893 22.509 12.224 35.848-6.389 13.06-22.504 18.617-35.564 12.226zm-27.229 69.472c-6.112-12.505-18.338-20.286-32.231-20.286a35.46 35.46 0 0 0-35.565 35.57c0 21.428 17.808 35.57 35.565 35.57 13.893 0 26.119-7.781 32.231-20.286 4.446-9.449 13.614-15.006 23.339-15.284-9.725-.277-18.893-5.835-23.339-15.284zm374.821-37.237c4.168 8.615 1.111 18.897-6.946 23.621l-58.071 33.069L532 352.16c-6.39 57.245-34.731 109.767-79.743 146.726-10.932 9.112-27.799 8.144-37.51-3.613-9.446-11.394-7.78-28.067 3.613-37.516 12.503-10.559 23.617-22.509 32.508-35.57-21.672 14.729-46.679 24.732-74.186 28.067-10.021 2.506-27.552-5.643-29.73-23.065-1.945-14.728 8.336-28.067 23.062-29.734 16.116-1.946 31.12-7.503 44.178-15.284-26.114 5.713-58.712 3.138-88.079-11.115-13.336-6.669-18.893-22.509-12.224-35.848 6.389-13.061 22.505-18.619 35.565-12.227 20.295 10.149 44.147 11.199 64.739 3.89-42.606 0-71.208-20.475-85.578-50.576-8.576-17.899 5.148-38.071 23.617-38.071-18.429 0-32.211-20.136-23.617-38.071 14.033-29.396 44.039-50.887 81.966-50.854l92.803 8.615 66.406-33.347c9.408-4.704 19.828-.354 23.894 7.781l44.455 88.926zm-229.227-18.618c-13.893 0-26.119 7.781-32.231 20.286-4.446 9.449-13.614 15.006-23.339 15.284 9.725.278 18.893 5.836 23.339 15.284 6.112 12.505 18.338 20.286 32.231 20.286a35.46 35.46 0 0 0 35.565-35.57c0-21.429-17.808-35.57-35.565-35.57z"></path></g></g></svg><b>Video explicativo en LENSEGUA</b><span>En producción con intérprete certificado y la comunidad sorda, por ejemplo con apoyo de la Asociación de Sordos de Guatemala (ASORGUA).</span></div>
+    <p class="lead">El video explicará qué es la beca, quién puede solicitarla, los documentos y cómo consultar el trámite. Para personas ciegas o con baja visión, la plataforma funciona con los lectores de pantalla del celular (TalkBack y VoiceOver) y tiene el botón <b>Escuchar</b>, que lee la información en voz alta.</p>
+  </div>
   <div class="note"><span class="ic">i</span><div><b>Protección de datos.</b> La información de discapacidad y la situación socioeconómica es confidencial. Cada usuario ve solo lo que le corresponde según su función, y cada cambio queda registrado en la bitácora del expediente.</div></div>
   ${S.rol?"":`<div class="actions"><button class="btn" type="button" data-go="ingreso">Ingresar a la plataforma</button><button class="btn ghost" type="button" data-go="consulta">Consultar un trámite</button></div>`}
 `}
@@ -552,7 +614,7 @@ function consultar(){
   const ini=x.nombre.split(" ").map(p=>p[0]).join(".")+".";
   const ev=estadoVisible(x);
   const msj={"Por verificar":"La escuela registró el expediente y la Supervisión lo está verificando.","Verificado":"El expediente está completo y verificado. Será revisado cuando abra la convocatoria.","En revisión":"El Comité de Becas está revisando el expediente.","Observado":"Falta un documento. Comuníquese con la dirección de la escuela.","Seleccionado":"El estudiante fue seleccionado. La escuela le indicará cuándo firmar la carta compromiso.","No seleccionado":"Esta vez no alcanzó una beca. El expediente queda en el banco de elegibles para la siguiente convocatoria.","Pagado":"La beca fue depositada en la cuenta registrada."}[ev];
-  $("#cRes").innerHTML=`<div class="card"><div class="actions" style="justify-content:space-between"><span class="mono">${x.id}</span>${pill(ev)}</div><h3>Estudiante ${esc(ini)} · ${esc(escuela(x.escuela).nombre)}</h3>${timeline(x,ev)}<p>${msj}</p></div>`;
+  $("#cRes").innerHTML=`<div class="card"><div class="actions" style="justify-content:space-between"><span class="mono">${x.id}</span>${pill(ev)}</div><h3>Estudiante ${esc(ini)} · ${esc(escuela(x.escuela).nombre)}</h3>${timeline(x,ev)}<p data-leer>${msj}</p>${vozOK()?`<div><button class="btn ghost sm" type="button" data-act="escucharRes">Escuchar el resultado</button></div>`:""}</div>`;
 }
 
 function vIngreso(){return `
@@ -703,7 +765,7 @@ function docSVG(k,d){
   <text x="70" y="${210+C.b.length*30+20}" font-size="14" fill="#555">Chiquimula, ${X(hoy())}</text>
   ${fx.map((x,i)=>firma(x)+`<line x1="${x-110}" y1="655" x2="${x+110}" y2="655" stroke="#111"/><text x="${x}" y="676" text-anchor="middle" font-size="12" fill="#333">${X(C.f[i])}</text>`).join("")}
   <g transform="rotate(-32 300 390)"><text x="300" y="400" text-anchor="middle" font-size="58" font-weight="700" fill="#c0392b" fill-opacity=".16">MUESTRA · SIN VALIDEZ</text></g>
-  <text x="300" y="735" text-anchor="middle" font-size="11" fill="#c0392b">Documento de demostración del prototipo BEDIS. Datos ficticios.</text></svg>`;
+  <text x="300" y="735" text-anchor="middle" font-size="11" fill="#c0392b">Documento de demostración del prototipo BEDis. Datos ficticios.</text></svg>`;
 }
 const svgURI=s=>"data:image/svg+xml;charset=utf-8,"+encodeURIComponent(s);
 function usarMuestra(k){
@@ -1083,7 +1145,7 @@ function vFormulario(){
   <div class="head noprint"><h1>Formulario impreso</h1><p class="lead">Para escuelas sin conexión. El director lo llena con la familia, ambos firman, y la Supervisión lo ingresa en la plataforma y sube la foto de la hoja de firmas. Es el mismo contenido del estudio en línea.</p>
     <div class="actions">${top?`<button class="btn" type="button" data-act="imprimir">Imprimir formulario</button>`:""}<span class="ref">${top?"Tamaño carta, 2 páginas.":"Para imprimir, abra la plataforma desde su enlace propio."}</span></div></div>
   <article class="paper">
-    <div class="ph"><div><b>MINISTERIO DE EDUCACIÓN · DIGEESP</b><br>Programa de Becas para Estudiantes con Discapacidad · Plataforma BEDIS<br>Dirección Departamental de Educación de Chiquimula</div><div class="pr">No. de expediente ______________<br>Fecha ____ / ____ / ________</div></div>
+    <div class="ph"><div><b>MINISTERIO DE EDUCACIÓN · DIGEESP</b><br>Programa de Becas para Estudiantes con Discapacidad · Plataforma BEDis<br>Dirección Departamental de Educación de Chiquimula</div><div class="pr">No. de expediente ______________<br>Fecha ____ / ____ / ________</div></div>
     <h2 class="pt">Estudio socioeconómico</h2>
     <p class="pn">Llenar con letra clara. Base legal: Reglamento del Programa de Becas (AM 826-2009, reformado por el AM 3722-2024), art. 5 d y art. 14 a. Información confidencial.</p>
 
@@ -1219,6 +1281,9 @@ document.addEventListener("click",ev=>{
   if(t.dataset.copy){const x=S.expedientes.find(e=>e.id===t.dataset.copy);copiar(mensajeFamilia(x),$("#m_"+x.id));return}
   switch(t.dataset.act){
     case "salir": S.rol=null;go("info");break;
+    case "escuchar": leer([...document.querySelectorAll("#main [data-leer]")].map(e=>e.innerText).join(". "),t);break;
+    case "escucharRes": leer([...document.querySelectorAll("#cRes h3, #cRes [data-leer]")].map(e=>e.innerText).join(". "),null);break;
+    case "lensegua": {const c=$("#lensegua");c.scrollIntoView({behavior:"smooth",block:"center"});c.classList.add("flash");setTimeout(()=>c.classList.remove("flash"),1600);break}
     case "cambiarRol": S.rol=null;S.detalle=null;go("ingreso");break;
     case "cerrarVer": $("#viewer").hidden=true;break;
     case "sire": sire();break;
